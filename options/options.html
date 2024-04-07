@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ShareASale Extension Options</title>
+    <script type="text/javascript" src="options.js"></script>
+    <link rel="stylesheet" type="text/css" href="reset.css" />
+    <link rel="stylesheet" type="text/css" href="options.css" />
+  </head>
+  <body class="extension-options">
+    <div class="header">
+      <img
+        class="header__image"
+        src="https://theme.zdassets.com/theme_assets/11797871/fd12ce8894cfe6d1ac3d51c12751f0764d93522d.png"
+        alt="ShareASale icon" />
+      <h1 class="header__title">ShareASale Plugin Options</h1>
+    </div>
+    <section class="content">
+      <div class="options-section" id="general-options">
+        <div class="section-header">
+          <h3 class="section-title">General Options</h3>
+          <div class="section-handler">
+            <span class="section-handler__icon"></span>
+            <span class="section-handler__icon"></span>
+          </div>
+        </div>
+        <div class="option" id="datafeed">
+          <p class="option__title">Datafeed</p>
+          <span class="option__selection">
+            <span class="option__select"></span>
+          </span>
+        </div>
+        <div class="option" id="sas-ui">
+          <p class="option__title">SAS UI</p>
+          <span class="option__selection">
+            <span class="option__select"></span>
+          </span>
+        </div>
+        <div class="option" id="decoder">
+          <p class="option__title">URL Decoder</p>
+          <span class="option__selection">
+            <span class="option__select"></span>
+          </span>
+        </div>
+        <div class="option" id="ftp">
+          <p class="option__title">FTP Credential Generator</p>
+          <span class="option__selection">
+            <span class="option__select"></span>
+          </span>
+        </div>
+      </div>
+      <div class="options-section" id="merchant-options">
+        <div class="section-header">
+          <h3 class="section-title">Merchant Options</h3>
+          <div class="section-handler">
+            <span class="section-handler__icon"></span>
+            <span class="section-handler__icon"></span>
+          </div>
+        </div>
+        <div class="option" id="get-merchant">
+          <p class="option__title">Get Merchant</p>
+          <span class="option__selection">
+            <span class="option__select"></span>
+          </span>
+        </div>
+        <div class="option" id="itp-merchant">
+          <p class="option__title">Check ITP</p>
+          <span class="option__selection">
+            <span class="option__select"></span>
+          </span>
+        </div>
+        <div class="option" id="test-merchant">
+          <p class="option__title">Test Merchant Button</p>
+          <span class="option__selection">
+            <span class="option__select"></span>
+          </span>
+        </div>
+      </div>
+      <div class="options-section" id="affiliate-options">
+        <div class="section-header">
+          <h3 class="section-title">Affiliate Options</h3>
+          <div class="section-handler">
+            <span class="section-handler__icon"></span>
+            <span class="section-handler__icon"></span>
+          </div>
+        </div>
+        <div class="option" id="get-affiliate">
+          <p class="option__title">Get Affiliate</p>
+          <span class="option__selection">
+            <span class="option__select"></span>
+          </span>
+        </div>
+        <div class="option" id="test-affiliate">
+          <p class="option__title">Test Affiliate Button</p>
+          <span class="option__selection">
+            <span class="option__select"></span>
+          </span>
+        </div>
+      </div>
+      <div class="options-section options-section_big" id="design-options">
+        <div class="section-header">
+          <h3 class="section-title">Design Options</h3>
+          <div class="section-handler">
+            <span class="section-handler__icon"></span>
+            <span class="section-handler__icon"></span>
+          </div>
+        </div>
+        <div class="option" id="background-color">
+          <p class="option__title">Background Color</p>
+          <input
+            class="option__input"
+            type="text"
+            name="background-color"
+            placeholder="#F4F4F4" />
+        </div>
+        <div class="option" id="text-color">
+          <p class="option__title">Text Color</p>
+          <input
+            class="option__input"
+            type="text"
+            name="text-color"
+            placeholder="#333333" />
+        </div>
+        <div class="option" id="btn-text-color">
+          <p class="option__title">Button Text Color</p>
+          <input
+            class="option__input"
+            type="text"
+            name="btn-text-color"
+            placeholder="#333333" />
+        </div>
+        <div class="option" id="button-color">
+          <p class="option__title">Button Background</p>
+          <input
+            class="option__input"
+            type="text"
+            name="button-color"
+            placeholder="#F9B417" />
+        </div>
+      </div>
+    </section>
+    <section class="action">
+      <div class="action__container" id="save">
+        <button class="action__button" type="button">Save Settings</button>
+      </div>
+      <div class="action__container" id="reset">
+        <button class="action__button" type="button">Reset Settings</button>
+      </div>
+      <p class="action__status"></p>
+    </section>
+  </body>
+</html>
