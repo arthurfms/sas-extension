@@ -11,19 +11,25 @@
   align-items: center;
 }
 .extension-button {
-  display: none;
+  display: flex;
+}
+.extension-button__logo-path {
+  fill: #f9b316;
 }
 .menu {
   width: fit-content;
   min-height: 450px;
   padding: 10px;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   background: #d4d4d4;
   border-radius: 8px;
   box-shadow: 3px 3px 5px 0px rgba(85, 85, 85, 0.25);
+}
+.menu_active {
+  display: flex;
 }
 .menu-header {
   width: 90%;
@@ -48,6 +54,9 @@
 }
 .menu-container__header {
   width: 100%;
+}
+.menu-container__title {
+  margin: 5px 0;
 }
 .menu-container__left {
   width: 35%;
