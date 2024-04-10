@@ -2,7 +2,7 @@ window.addEventListener("load", () => {
   // Creating components
   const createComponent = (el, id = "added-element", classes) => {
     let newElement = document.createElement(el);
-    id ? (newElement.id = id) : "";
+    newElement.id = id;
     classes.length > 0
       ? classes.forEach((cl) => newElement.classList.add(cl))
       : "";
@@ -20,7 +20,6 @@ window.addEventListener("load", () => {
     element.title = "SAS Internal Extension";
     element.style =
       "width: 455px; height: 505px; position: fixed; bottom: 5px; right: 5px; border: none; background: transparent;";
-    element.allowTransparency = "true";
 
     // Create style element
     let styleLink = document.createElement("link");
@@ -28,6 +27,21 @@ window.addEventListener("load", () => {
     styleLink.rel = "stylesheet";
     styleLink.href =
       "https://arthurfms.github.io/sas-extension/source/source.css";
+
+    let font1 = document.createElement("link");
+    let font2 = document.createElement("link");
+    let font3 = document.createElement("link");
+    font1.rel = "preconnect";
+    font1.href = "https://fonts.googleapis.com";
+    font2.rel = "preconnect";
+    font2.href = "https://fonts.gstatic.com";
+    font3.rel = "stylesheet";
+    font3.href =
+      "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap";
+
+    element.contentWindow.document.head.append(font1);
+    element.contentWindow.document.head.append(font2);
+    element.contentWindow.document.head.append(font3);
     element.contentWindow.document.head.append(styleLink);
   };
 
