@@ -14,6 +14,20 @@
 }
 .extension-button {
   display: flex;
+  align-items: center;
+  width: 35px;
+  height: 70px;
+  border-radius: 150px 0px 0px 150px;
+  background: #f4f4f4;
+  position: fixed;
+  right: 0;
+  bottom: 100px;
+  cursor: pointer;
+}
+.extension-button__logo {
+  width: 25px;
+  position: relative;
+  margin: auto 0 auto auto;
 }
 .extension-button__logo-path {
   fill: #f9b316;
