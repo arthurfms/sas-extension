@@ -16,7 +16,7 @@ window.addEventListener("load", () => {
   // Handling events
   const eventsHandler = (target, elements, event, callBack) => {
     target.addEventListener(event, (evt) => {
-      callBack(elements);
+      callBack(elements, evt);
     });
   };
   // Handling Options
@@ -338,21 +338,9 @@ window.addEventListener("load", () => {
             (el[0].style.width = "40px"), (el[0].style.height = "75px");
           }
         });
-        eventsHandler(document, [exIframe, iframeBody], "click", (el) => {
-          let clickedBody = "";
-          let currEl = el.target;
-          do {
-            if (
-              currEl.parentNode.nodeName.toLowerCase() == "body" &&
-              currEl.parentNode.contains("sas-extension")
-            ) {
-              clickedBody = "extension";
-            } else if (currEl.parentNode.nodeName.toLowerCase() == "body") {
-              (el[0].style.width = "40px"), (el[0].style.height = "75px");
-              el[1].classList.toggle("sas-extension_active");
-              clickedBody = "page";
-            }
-          } while (clickedBody == "");
+        eventsHandler(document, [exIframe, iframeBody], "click", (el, evt) => {
+          (el[0].style.width = "40px"), (el[0].style.height = "75px");
+          el[1].classList.remove("sas-extension_active");
         });
       }
     );
