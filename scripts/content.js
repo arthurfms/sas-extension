@@ -15,12 +15,20 @@ window.addEventListener("load", () => {
 
   // Generating components
   const handleComponents = (optionsItems, element, container) => {
+    console.log(optionsItems);
     //adding element attributes
-    element.src =
-      "https://arthurfms.github.io/sas-extension/source/source.html";
     element.title = "SAS Internal Extension";
     element.style =
-      "width: 455px; height: 505px; position: fixed; bottom: 5px; right: 5px; border: none;";
+      "width: 455px; height: 505px; position: fixed; bottom: 5px; right: 5px; border: none; background: transparent;";
+    element.allowTransparency = "true";
+
+    // Create style element
+    let styleLink = document.createElement("link");
+    styleLink.type = "text/css";
+    styleLink.rel = "stylesheet";
+    styleLink.href =
+      "https://arthurfms.github.io/sas-extension/source/source.css";
+    element.contentWindow.document.head.append(styleLink);
   };
 
   // Getting Options

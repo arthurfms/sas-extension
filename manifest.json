@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "SAS Internal Extension Test",
-  "version": "3.0",
+  "name": "SAS Internal Extension",
+  "version": "3.1",
   "description": "Usefull tools and links to SAS",
   "permissions": ["storage"],
   "icons": {
@@ -13,10 +13,7 @@
   "content_scripts": [
     {
       "js": ["scripts/content.js"],
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ]
+      "matches": ["http://*/*", "https://*/*"]
     }
   ],
   "options_page": "options/options.html"
