@@ -21,16 +21,6 @@ window.addEventListener("load", () => {
     element.title = "SAS Internal Extension";
     element.style =
       "width: 455px; height: 505px; position: fixed; bottom: 5px; right: 5px; border: none;";
-
-    container.classList.add("sas-extension");
-    // adding CSS
-    let styleEl = document.createElement("link");
-    styleEl.type = "text/css";
-    styleEl.rel = "stylesheet";
-    styleEl.href =
-      "https://arthurfms.github.io/sas-extension/source/source.css";
-
-    element.contentWindow.document.head.append(styleEl);
   };
 
   // Getting Options
