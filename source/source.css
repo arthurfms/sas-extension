@@ -18,11 +18,16 @@
   width: 35px;
   height: 70px;
   border-radius: 150px 0px 0px 150px;
+  box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.25);
   background: #f4f4f4;
   position: fixed;
   right: 0;
   bottom: 100px;
   cursor: pointer;
+  transition: all 0.5s ease;
+}
+.extension-button:hover {
+  box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.5);
 }
 .extension-button__logo {
   width: 25px;
@@ -31,6 +36,25 @@
 }
 .extension-button__logo-path {
   fill: #f9b316;
+  transition: all 0.5s ease;
+}
+.extension-button:hover .extension-button__logo-path {
+  fill: #bebebe;
+}
+.sas-extension_active .extension-button__logo {
+  display: none;
+}
+.extension-button__close-button {
+  display: none;
+  width: 25px;
+  margin: auto;
+  transition: all 0.5s ease;
+}
+.extension-button:hover .extension-button__close-button {
+  fill: #bebebe;
+}
+.sas-extension_active .extension-button__close-button {
+  display: block;
 }
 .menu {
   width: fit-content;
@@ -44,7 +68,7 @@
   border-radius: 8px;
   box-shadow: 3px 3px 5px 0px rgba(85, 85, 85, 0.25);
 }
-.menu_active {
+.sas-extension_active .menu {
   display: flex;
 }
 .menu-header {

@@ -257,11 +257,10 @@ window.addEventListener("load", () => {
 
   // Generating components
   const handleComponents = (optionsItems, element, container) => {
-    console.log(optionsItems);
     //adding element attributes
     element.title = "SAS Internal Extension";
     element.style =
-      "width: 455px; height: 525px; position: fixed; bottom: 5px; right: 5px; border: none; background: transparent;";
+      "width: 455px; height: 485px; position: fixed; bottom: 5px; right: 0px; border: none; background: transparent;";
 
     // Create style elements
     let styleLink = document.createElement("link");
@@ -269,6 +268,11 @@ window.addEventListener("load", () => {
     styleLink.rel = "stylesheet";
     styleLink.href =
       "https://arthurfms.github.io/sas-extension/source/source.css";
+    let resetLink = document.createElement("link");
+    resetLink.type = "text/css";
+    resetLink.rel = "stylesheet";
+    resetLink.href =
+      "https://arthurfms.github.io/sas-extension/source/reset.css";
 
     let font1 = document.createElement("link");
     let font2 = document.createElement("link");
@@ -285,6 +289,7 @@ window.addEventListener("load", () => {
     element.contentWindow.document.head.append(font1);
     element.contentWindow.document.head.append(font2);
     element.contentWindow.document.head.append(font3);
+    element.contentWindow.document.head.append(resetLink);
     element.contentWindow.document.head.append(styleLink);
 
     //Handling body
