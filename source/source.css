@@ -5,9 +5,7 @@
 .sas-extension {
   margin: 0;
   height: 100%;
-  position: fixed;
-  right: 0;
-  bottom: 0;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,9 +18,7 @@
   border-radius: 150px 0px 0px 150px;
   box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.25);
   background: #f4f4f4;
-  position: fixed;
-  right: 0;
-  bottom: 100px;
+  position: relative;
   cursor: pointer;
   transition: all 0.5s ease;
 }
@@ -36,7 +32,7 @@
 }
 .extension-button__logo-path {
   fill: #f9b316;
-  transition: all 0.5s ease;
+  transition: all 0.75s ease;
 }
 .extension-button:hover .extension-button__logo-path {
   fill: #bebebe;
@@ -48,7 +44,7 @@
   display: none;
   width: 25px;
   margin: auto;
-  transition: all 0.5s ease;
+  transition: all 0.75s ease;
 }
 .extension-button:hover .extension-button__close-button {
   fill: #bebebe;
@@ -58,7 +54,7 @@
 }
 .menu {
   width: fit-content;
-  height: 100%;
+  height: 90%;
   padding: 10px;
   display: none;
   flex-direction: column;

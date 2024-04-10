@@ -13,6 +13,12 @@ window.addEventListener("load", () => {
       : document.querySelector("body").querySelector("#added-element");
   };
 
+  // Handling events
+  const eventsHandler = (target, elements, event, callBack) => {
+    target.addEventListener(event, (evt) => {
+      callBack(elements);
+    });
+  };
   // Handling Options
   const handleOptions = (options, container) => {
     let extensionButton = document.createElement("div");
@@ -260,7 +266,7 @@ window.addEventListener("load", () => {
     //adding element attributes
     element.title = "SAS Internal Extension";
     element.style =
-      "width: 455px; height: 485px; position: fixed; bottom: 5px; right: 0px; border: none; background: transparent;";
+      "width: 35px; height: 70px; position: fixed; bottom: 75px; right: 0px; border: none; background: transparent;";
 
     // Create style elements
     let styleLink = document.createElement("link");
@@ -321,6 +327,13 @@ window.addEventListener("load", () => {
           "sas-extension-iframe",
         ]);
         handleComponents(items, exIframe, exIframe.contentWindow.document.body);
+
+        let iframeBody = exIframe.contentWindow.document.body;
+        let handlerButton = iframeBody.querySelector(".extension-button");
+        eventsHandler(handlerButton, [exIframe, iframeBody], "click", (el) => {
+          el[1].classList.toggle("sas-extension_active");
+          (el[0].style.width = "445px"), (el[0].style.height = "485px");
+        });
       }
     );
   };
