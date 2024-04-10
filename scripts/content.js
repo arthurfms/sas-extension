@@ -339,12 +339,20 @@ window.addEventListener("load", () => {
           }
         });
         eventsHandler(document, [exIframe, iframeBody], "click", (el) => {
-          el[1].classList.toggle("sas-extension_active");
-          if (el[1].classList.contains("sas-extension_active")) {
-            (el[0].style.width = "445px"), (el[0].style.height = "455px");
-          } else {
-            (el[0].style.width = "40px"), (el[0].style.height = "75px");
-          }
+          let clickedBody = "";
+          let currEl = el.target;
+          do {
+            if (
+              currEl.parentNode.nodeName.toLowerCase() == "body" &&
+              currEl.parentNode.contains("sas-extension")
+            ) {
+              clickedBody = "extension";
+            } else if (currEl.parentNode.nodeName.toLowerCase() == "body") {
+              (el[0].style.width = "40px"), (el[0].style.height = "75px");
+              el[1].classList.toggle("sas-extension_active");
+              clickedBody = "page";
+            }
+          } while (clickedBody == "");
         });
       }
     );
