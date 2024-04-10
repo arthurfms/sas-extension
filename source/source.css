@@ -7,7 +7,7 @@
   height: 100%;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 .extension-button {
@@ -20,7 +20,7 @@
   background: #f4f4f4;
   position: relative;
   cursor: pointer;
-  transition: all 0.5s ease;
+  transition: all 0.35s ease;
 }
 .sas-extension_active .extension-button {
   height: 100%;
@@ -56,19 +56,27 @@
   display: block;
 }
 .menu {
-  width: 90%;
-  height: 100%;
+  position: absolute;
+  right: -500px;
+  bottom: 0;
+  width: 0;
+  height: 0;
   padding: 10px;
-  display: none;
+  visibility: hidden;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   background: #d4d4d4;
-  border-radius: 0px 8px 8px 0px;
   box-shadow: 3px 3px 5px 0px rgba(85, 85, 85, 0.25);
+  transition: all 0.25s ease;
 }
 .sas-extension_active .menu {
-  display: flex;
+  visibility: visible;
+  width: 90%;
+  height: 100%;
+  position: relative;
+  right: 0;
 }
 .menu-header {
   width: 90%;

@@ -335,7 +335,15 @@ window.addEventListener("load", () => {
           if (el[1].classList.contains("sas-extension_active")) {
             (el[0].style.width = "445px"), (el[0].style.height = "455px");
           } else {
-            (el[0].style.width = "40px"), (el[0].style.height = "70px");
+            (el[0].style.width = "40px"), (el[0].style.height = "75px");
+          }
+        });
+        eventsHandler(document, [exIframe, iframeBody], "click", (el) => {
+          el[1].classList.toggle("sas-extension_active");
+          if (el[1].classList.contains("sas-extension_active")) {
+            (el[0].style.width = "445px"), (el[0].style.height = "455px");
+          } else {
+            (el[0].style.width = "40px"), (el[0].style.height = "75px");
           }
         });
       }
