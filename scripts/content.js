@@ -68,6 +68,13 @@ window.addEventListener("load", () => {
     container.scrollTop = 0;
     container.scrollLeft = 0;
   };
+  // Cleaning Inputs
+  const cleanInputs = (element) => {
+    let inputs = element.querySelectorAll("input");
+    inputs.forEach((inp) => {
+      inp.value = "";
+    });
+  };
   // Handling Options
   const handleOptions = (options, container) => {
     let extensionButton = document.createElement("div");
@@ -129,16 +136,16 @@ window.addEventListener("load", () => {
       let firstContainer = document.createElement("div");
       firstContainer.classList.add("menu-container");
       firstContainer.innerHTML = `
-      <a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm">SAS UI</a>
-      <a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm">Datafeed</a>
+      <a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm" target="_parent">SAS UI</a>
+      <a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm" target="_parent">Datafeed</a>
       `;
       contentContainer.append(firstContainer);
     } else if (options.sasUI || options.datafeed) {
       let firstContainer = document.createElement("div");
       firstContainer.classList.add("menu-container");
       firstContainer.innerHTML = options.sasUI
-        ? `<a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm">SAS UI</a>`
-        : `<a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm">Datafeed</a>`;
+        ? `<a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm" target="_parent">SAS UI</a>`
+        : `<a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm" target="_parent">Datafeed</a>`;
       contentContainer.append(firstContainer);
     }
 
@@ -240,16 +247,17 @@ window.addEventListener("load", () => {
 
         options.getMerchant || options.itp
           ? (leftCont.innerHTML += `
-        <textarea
+        <input
+        type="text"
         class="menu-container__input menu-container__input_merchant"
         name="Merchant"
-        placeholder="Merchant ID"></textarea>
+        placeholder="Merchant ID"></input>
       `)
           : "";
 
         options.getMerchant
           ? (leftCont.innerHTML += `
-        <a class="menu-container__button" id="get-merchant" href="#" >
+        <a class="menu-container__button" id="get-merchant" href="#" target="_parent" >
           Get Merchant
         </a>
       `)
@@ -257,7 +265,7 @@ window.addEventListener("load", () => {
 
         options.itp
           ? (leftCont.innerHTML += `
-        <a class="menu-container__button" id="itp-merchant" href="#" >
+        <a class="menu-container__button" id="itp-merchant" href="#" target="_parent" >
           Check ITP
         </a>
       `)
@@ -265,7 +273,7 @@ window.addEventListener("load", () => {
 
         options.testMerchant
           ? (leftCont.innerHTML += `
-        <a class="menu-container__button" id="test-merchant" href="https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=44911&searchby=44911">
+        <a class="menu-container__button" id="test-merchant" href="https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=44911&searchby=44911" target="_parent" >
           Test Merchant
         </a>
       `)
@@ -284,11 +292,12 @@ window.addEventListener("load", () => {
 
         options.getAffiliate
           ? (rightCont.innerHTML += `
-          <textarea
+          <input
+          type="text"
           class="menu-container__input menu-container__input_affiliate"
           name="Affiliate"
-          placeholder="Affiliate ID"></textarea>
-          <a class="menu-container__button" id="get-affiliate" href="#" >
+          placeholder="Affiliate ID"></input>
+          <a class="menu-container__button" id="get-affiliate" href="#" target="_parent" >
             Get Affiliate
           </a>
       `)
@@ -296,7 +305,7 @@ window.addEventListener("load", () => {
 
         options.testAffiliate
           ? (rightCont.innerHTML += `
-        <a class="menu-container__button" id="test-affiliate" href="https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=178&searchby=178" >
+        <a class="menu-container__button" id="test-affiliate" href="https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=178&searchby=178" target="_parent" >
           Test Affiliate
         </a>
       `)
@@ -451,12 +460,14 @@ window.addEventListener("load", () => {
             (el[0].style.width = "445px"), (el[0].style.height = "455px");
           } else {
             (el[0].style.width = "40px"), (el[0].style.height = "75px");
+            cleanInputs(el[1]);
           }
         });
         // Close when clicking out of the iframe
         eventsHandler(document, [exIframe, iframeBody], "click", (el, evt) => {
           (el[0].style.width = "40px"), (el[0].style.height = "75px");
           el[1].classList.remove("sas-extension_active");
+          cleanInputs(el[1]);
         });
         // Close when clicking at close button
         let closeButton = iframeBody.querySelector(".menu-footer__button");

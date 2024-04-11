@@ -31,6 +31,9 @@
 
 .sas-extension_active .extension-button {
   height: 100%;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(17.9px);
+  -webkit-backdrop-filter: blur(17.9px);
 }
 .extension-button:hover {
   box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.5);
@@ -74,8 +77,10 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: #d4d4d4;
-  box-shadow: 3px 3px 5px 0px rgba(85, 85, 85, 0.25);
+  background: rgba(244, 244, 244, 0.45);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(17.9px);
+  -webkit-backdrop-filter: blur(17.9px);
   transition: all 0.25s ease;
 }
 .sas-extension_active .menu {
@@ -207,6 +212,9 @@
   font-size: 12px;
   text-wrap: nowrap;
   scrollbar-width: none;
+}
+input.menu-container__input {
+  padding-bottom: 5px;
 }
 .menu-container__result {
   scrollbar-color: #f9b317 transparent;
