@@ -17,8 +17,10 @@
   width: 35px;
   height: 70px;
   border-radius: 150px 0px 0px 150px;
-  box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.25);
-  background: #f4f4f4;
+  background: rgba(244, 244, 244, 0.35);
+  box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   position: relative;
   cursor: pointer;
   transition: all 0.35s ease;
@@ -31,12 +33,13 @@
 
 .sas-extension_active .extension-button {
   height: 100%;
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(17.9px);
-  -webkit-backdrop-filter: blur(17.9px);
+  background: rgba(244, 244, 244, 0.75);
+  box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .extension-button:hover {
-  box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.25);
 }
 .extension-button__logo {
   width: 25px;
@@ -47,8 +50,8 @@
   fill: #f9b316;
   transition: all 0.75s ease;
 }
-.extension-button:hover .extension-button__logo-path {
-  fill: #bebebe;
+.extension-button:hover .extension-button__logo {
+  opacity: 0.5;
 }
 .sas-extension_active .extension-button__logo {
   display: none;
@@ -79,8 +82,8 @@
   align-items: center;
   background: rgba(244, 244, 244, 0.45);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(17.9px);
-  -webkit-backdrop-filter: blur(17.9px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   transition: all 0.25s ease;
 }
 .sas-extension_active .menu {
