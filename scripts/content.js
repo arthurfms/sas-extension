@@ -19,6 +19,55 @@ window.addEventListener("load", () => {
       callBack(elements, evt);
     });
   };
+
+  // Decode URL
+  const decodeUrl = (inp, container) => {
+    let decodedUrl = decodeURIComponent(inp);
+    let mainUrl =
+      decodedUrl.indexOf("?") > 0 ? decodedUrl.split("?")[0] : false;
+    let queryParams = mainUrl
+      ? decodedUrl.split("?")[1].split("&")
+      : decodedUrl.split("&");
+    container.value = "";
+    mainUrl ? (container.value = `${mainUrl}\n\n`) : "";
+    queryParams.forEach((param, index) => {
+      index == 0
+        ? (container.value = container.value + `${param}`)
+        : (container.value = container.value + `\n${param}`);
+    });
+    container.scrollTop = 0;
+    container.scrollLeft = 0;
+  };
+  // Generate FTP Credentials
+  let generateFTP = (input, container) => {
+    container.value = "";
+    let output;
+    const inputString = input;
+
+    const containsUsernameOrPassword = /Username:|Password:/i.test(inputString);
+    const noCredFound = /No Username or Password found/i.test(inputString);
+
+    if (containsUsernameOrPassword) {
+      let newInput = input.replace(/(\r\n|\n|\r)/gm, "");
+      newInput = newInput.replace("Username: ", "<br>Username: <strong>");
+      newInput = newInput.replace(
+        "Password: ",
+        "</strong> \n<br>Password: <strong>"
+      );
+      newInput = newInput + "</strong>";
+      output = `FTP Credentials. \n${newInput}`;
+    }
+
+    if (!noCredFound) {
+      container.value = output
+        ? output
+        : `No Username or Password found.\n\n${input}`;
+    } else {
+      container.value = input;
+    }
+    container.scrollTop = 0;
+    container.scrollLeft = 0;
+  };
   // Handling Options
   const handleOptions = (options, container) => {
     let extensionButton = document.createElement("div");
@@ -80,16 +129,16 @@ window.addEventListener("load", () => {
       let firstContainer = document.createElement("div");
       firstContainer.classList.add("menu-container");
       firstContainer.innerHTML = `
-      <a class="menu-container__button" id="sas-ui" href="#">SAS UI</a>
-      <a class="menu-container__button" id="datafeed" href="#">Datafeed</a>
+      <a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm">SAS UI</a>
+      <a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm">Datafeed</a>
       `;
       contentContainer.append(firstContainer);
     } else if (options.sasUI || options.datafeed) {
       let firstContainer = document.createElement("div");
       firstContainer.classList.add("menu-container");
       firstContainer.innerHTML = options.sasUI
-        ? `<a class="menu-container__button" id="sas-ui" href="#">SAS UI</a>`
-        : `<a class="menu-container__button" id="datafeed" href="#">Datafeed</a>`;
+        ? `<a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm">SAS UI</a>`
+        : `<a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm">Datafeed</a>`;
       contentContainer.append(firstContainer);
     }
 
@@ -114,7 +163,8 @@ window.addEventListener("load", () => {
       </div>
       <div class="menu-container__right menu-container__right_bigh">
         <textarea
-          class="menu-container__input menu-container__result"
+          class="menu-container__input menu-container__result" 
+          id="dec-ftp-input" 
           name="result"
           placeholder="URL or FTP Credentials"></textarea>
       </div>
@@ -138,7 +188,8 @@ window.addEventListener("load", () => {
         </div>
         <div class="menu-container__right menu-container__right_bigh">
           <textarea
-            class="menu-container__input menu-container__result"
+            class="menu-container__input menu-container__result" 
+            id="dec-ftp-input" 
             name="result"
             placeholder="URL or FTP Credentials"></textarea>
         </div>
@@ -157,7 +208,8 @@ window.addEventListener("load", () => {
         </div>
         <div class="menu-container__right menu-container__right_bigh">
           <textarea
-            class="menu-container__input menu-container__result"
+            class="menu-container__input menu-container__result" 
+            id="dec-ftp-input" 
             name="result"
             placeholder="URL or FTP Credentials"></textarea>
         </div>
@@ -179,7 +231,7 @@ window.addEventListener("load", () => {
       if (options.getMerchant || options.testMerchant || options.itp) {
         let leftCont = document.createElement("div");
         leftCont.classList.add("menu-container__left");
-        leftCont.classList.add("menu-container__left");
+        leftCont.classList.add("menu-container__left_mid");
         leftCont.innerHTML = `
       <div class="menu-container__header">
         <h4 class="menu-container__title">Merchant</h4>
@@ -197,25 +249,25 @@ window.addEventListener("load", () => {
 
         options.getMerchant
           ? (leftCont.innerHTML += `
-        <button class="menu-container__button" id="get-merchant">
+        <a class="menu-container__button" id="get-merchant" href="#" >
           Get Merchant
-        </button>
+        </a>
       `)
           : "";
 
         options.itp
           ? (leftCont.innerHTML += `
-        <button class="menu-container__button" id="itp-merchant">
+        <a class="menu-container__button" id="itp-merchant" href="#" >
           Check ITP
-        </button>
+        </a>
       `)
           : "";
 
         options.testMerchant
           ? (leftCont.innerHTML += `
-        <button class="menu-container__button" id="test-merchant">
+        <a class="menu-container__button" id="test-merchant" href="https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=44911&searchby=44911">
           Test Merchant
-        </button>
+        </a>
       `)
           : "";
         thirdContainer.append(leftCont);
@@ -236,17 +288,17 @@ window.addEventListener("load", () => {
           class="menu-container__input menu-container__input_affiliate"
           name="Affiliate"
           placeholder="Affiliate ID"></textarea>
-          <button class="menu-container__button" id="get-affiliate">
+          <a class="menu-container__button" id="get-affiliate" href="#" >
             Get Affiliate
-          </button>
+          </a>
       `)
           : "";
 
         options.testAffiliate
           ? (rightCont.innerHTML += `
-        <button class="menu-container__button" id="test-affiliate">
+        <a class="menu-container__button" id="test-affiliate" href="https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=178&searchby=178" >
           Test Affiliate
-        </button>
+        </a>
       `)
           : "";
         thirdContainer.append(rightCont);
@@ -259,6 +311,67 @@ window.addEventListener("load", () => {
     footer.innerHTML = `<p class="menu-footer__button">Close Extension</p>`;
     contentBody.append(footer);
     container.append(contentBody);
+
+    // Handle Merchant Buttons and input
+    if (options.getMerchant || options.itp) {
+      let merchantInput = contentBody.querySelector(
+        ".menu-container__input_merchant"
+      );
+      let merchantGet = contentBody.querySelector("#get-merchant");
+      let merchantItp = contentBody.querySelector("#itp-merchant");
+      merchantInput.onkeyup = (evt) => {
+        let merInput = evt.target.value;
+        let getUrl = `https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=${merInput}&searchby=${merInput}`;
+        let itpUrl = `https://account.shareasale.com/admin/itp.cfm?merchantid=${merInput}`;
+
+        parseInt(merInput) > 95
+          ? (merchantGet.classList.add("menu-container__button_active"),
+            (merchantGet.href = getUrl),
+            merchantItp.classList.add("menu-container__button_active"),
+            (merchantItp.href = itpUrl))
+          : (merchantGet.classList.remove("menu-container__button_active"),
+            merchantItp.classList.remove("menu-container__button_active"));
+      };
+    }
+    // Handle Affiliate Buttons and input
+    if (options.getAffiliate) {
+      let affiliateInput = contentBody.querySelector(
+        ".menu-container__input_affiliate"
+      );
+      let affiliateGet = contentBody.querySelector("#get-affiliate");
+      affiliateInput.onkeyup = (evt) => {
+        let affInput = evt.target.value;
+        let affUrl = `https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=${affInput}&searchby=${affInput}`;
+
+        parseInt(affInput) > 24
+          ? (affiliateGet.classList.add("menu-container__button_active"),
+            (affiliateGet.href = affUrl))
+          : affiliateGet.classList.remove("menu-container__button_active");
+      };
+    }
+    // Handle Decoder and FTP Buttons and input
+    if (options.decoder || options.ftpCred) {
+      let decftpInput = contentBody.querySelector("#dec-ftp-input");
+      let decButton = contentBody.querySelector("#decoder");
+      let ftpButton = contentBody.querySelector("#ftp");
+      let deleteButton = contentBody.querySelector(
+        ".menu-container__button_delete"
+      );
+
+      decButton.addEventListener("click", () => {
+        decodeUrl(decftpInput.value, decftpInput);
+      });
+      ftpButton.addEventListener("click", () => {
+        decftpInput.value.length > 15
+          ? generateFTP(decftpInput.value, decftpInput)
+          : "";
+      });
+      deleteButton.addEventListener("click", () => {
+        decftpInput.value = "";
+        decftpInput.scrollTop = 0;
+        decftpInput.scrollLeft = 0;
+      });
+    }
   };
 
   // Generating components
@@ -328,8 +441,10 @@ window.addEventListener("load", () => {
         ]);
         handleComponents(items, exIframe, exIframe.contentWindow.document.body);
 
+        // Adding Openning and closing Event Listener
         let iframeBody = exIframe.contentWindow.document.body;
         let handlerButton = iframeBody.querySelector(".extension-button");
+        // Open and close by clicking at the button
         eventsHandler(handlerButton, [exIframe, iframeBody], "click", (el) => {
           el[1].classList.toggle("sas-extension_active");
           if (el[1].classList.contains("sas-extension_active")) {
@@ -338,9 +453,15 @@ window.addEventListener("load", () => {
             (el[0].style.width = "40px"), (el[0].style.height = "75px");
           }
         });
+        // Close when clicking out of the iframe
         eventsHandler(document, [exIframe, iframeBody], "click", (el, evt) => {
           (el[0].style.width = "40px"), (el[0].style.height = "75px");
           el[1].classList.remove("sas-extension_active");
+        });
+        // Close when clicking at close button
+        let closeButton = iframeBody.querySelector(".menu-footer__button");
+        eventsHandler(closeButton, [exIframe], "click", (el, evt) => {
+          el[0].remove();
         });
       }
     );
