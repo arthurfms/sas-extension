@@ -38,6 +38,9 @@
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
+.sas-extension_active .extension-button_dark {
+  background: #f2f2f2;
+}
 .extension-button:hover {
   box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.25);
 }
