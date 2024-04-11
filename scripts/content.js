@@ -463,6 +463,19 @@ window.addEventListener("load", () => {
         eventsHandler(closeButton, [exIframe], "click", (el, evt) => {
           el[0].remove();
         });
+        // Handle Dark theme
+        if (
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme:dark)").matches &&
+          document.querySelector("html").attributes["data-dark-theme"].value ==
+            "dark" &&
+          document.querySelector("html").attributes["data-color-mode"].value ==
+            "auto"
+        ) {
+          iframeBody
+            .querySelector(".extension-button")
+            .classList.add("extension-button_dark");
+        }
       }
     );
   };

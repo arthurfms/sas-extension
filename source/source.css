@@ -23,6 +23,12 @@
   cursor: pointer;
   transition: all 0.35s ease;
 }
+.extension-button_dark {
+  width: 45px;
+  height: 100%;
+  border-radius: 0;
+}
+
 .sas-extension_active .extension-button {
   height: 100%;
 }
