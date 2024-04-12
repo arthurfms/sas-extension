@@ -478,14 +478,21 @@ window.addEventListener("load", () => {
         if (
           window.matchMedia &&
           window.matchMedia("(prefers-color-scheme:dark)").matches &&
-          document.querySelector("html").attributes["data-dark-theme"].value ==
-            "dark" &&
-          document.querySelector("html").attributes["data-color-mode"].value ==
-            "auto"
+          document.querySelector("html").attributes["data-dark-theme"] !=
+            undefined &&
+          document.querySelector("html").attributes["data-color-mode"] !=
+            undefined
         ) {
-          iframeBody
-            .querySelector(".extension-button")
-            .classList.add("extension-button_dark");
+          if (
+            document.querySelector("html").attributes["data-dark-theme"]
+              .value == "dark" &&
+            document.querySelector("html").attributes["data-color-mode"]
+              .value == "auto"
+          ) {
+            iframeBody
+              .querySelector(".extension-button")
+              .classList.add("extension-button_dark");
+          }
         }
       }
     );

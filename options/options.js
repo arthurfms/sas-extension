@@ -235,6 +235,51 @@ window.addEventListener("load", () => {
   options.forEach((op) => {
     op.addEventListener("click", (evt) => {
       op.classList.toggle("option__selection_selected");
+
+      // Handle general options
+      if (
+        op.parentNode.id == "menu-context-option" &&
+        op.classList.contains("option__selection_selected")
+      ) {
+        document
+          .querySelector("#menu-context-options")
+          .classList.remove("options-section_disable");
+      } else if (op.parentNode.id == "menu-context-option") {
+        document
+          .querySelector("#menu-context-options")
+          .classList.add("options-section_disable");
+      }
+
+      if (
+        op.parentNode.id == "extension-option" &&
+        op.classList.contains("option__selection_selected")
+      ) {
+        document
+          .querySelector("#general-options")
+          .classList.remove("options-section_disable");
+        document
+          .querySelector("#merchant-options")
+          .classList.remove("options-section_disable");
+        document
+          .querySelector("#affiliate-options")
+          .classList.remove("options-section_disable");
+        document
+          .querySelector("#design-options")
+          .classList.remove("options-section_disable");
+      } else if (op.parentNode.id == "extension-option") {
+        document
+          .querySelector("#general-options")
+          .classList.add("options-section_disable");
+        document
+          .querySelector("#merchant-options")
+          .classList.add("options-section_disable");
+        document
+          .querySelector("#affiliate-options")
+          .classList.add("options-section_disable");
+        document
+          .querySelector("#design-options")
+          .classList.add("options-section_disable");
+      }
     });
   });
 
