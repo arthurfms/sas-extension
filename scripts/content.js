@@ -73,7 +73,7 @@ window.addEventListener("load", () => {
     let inputs = element.querySelectorAll("input");
     element.querySelector("#get-merchant") ? element.querySelector("#get-merchant").classList.add("menu-container__button_deactive"): "";
     element.querySelector("#itp-merchant") ? element.querySelector("#itp-merchant").classList.add("menu-container__button_deactive"): "";
-    element.querySelector("#get-affiliate") ? element.querySelector("#get-merchant").classList.add("menu-container__button_deactive"): "";
+    element.querySelector("#get-affiliate") ? element.querySelector("#get-affiliate").classList.add("menu-container__button_deactive"): "";
     inputs.forEach((inp) => {
       inp.value = "";
     });
@@ -260,7 +260,7 @@ window.addEventListener("load", () => {
 
         options.getMerchant
           ? (leftCont.innerHTML += `
-        <a class="menu-container__button" id="get-merchant" href="#" target="_parent" >
+        <a class="menu-container__button menu-container__button_deactive" id="get-merchant" href="#" target="_parent" >
           Get Merchant
         </a>
       `)
@@ -268,7 +268,7 @@ window.addEventListener("load", () => {
 
         options.itp
           ? (leftCont.innerHTML += `
-        <a class="menu-container__button" id="itp-merchant" href="#" target="_parent" >
+        <a class="menu-container__button menu-container__button_deactive" id="itp-merchant" href="#" target="_parent" >
           Check ITP
         </a>
       `)
@@ -300,7 +300,7 @@ window.addEventListener("load", () => {
           class="menu-container__input menu-container__input_affiliate"
           name="Affiliate"
           placeholder="Affiliate ID"></input>
-          <a class="menu-container__button" id="get-affiliate" href="#" target="_parent" >
+          <a class="menu-container__button menu-container__button_deactive" id="get-affiliate" href="#" target="_parent" >
             Get Affiliate
           </a>
       `)
