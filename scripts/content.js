@@ -71,6 +71,9 @@ window.addEventListener("load", () => {
   // Cleaning Inputs
   const cleanInputs = (element) => {
     let inputs = element.querySelectorAll("input");
+    element.querySelector("#get-merchant") ? element.querySelector("#get-merchant").classList.add("menu-container__button_deactive"): "";
+    element.querySelector("#itp-merchant") ? element.querySelector("#itp-merchant").classList.add("menu-container__button_deactive"): "";
+    element.querySelector("#get-affiliate") ? element.querySelector("#get-merchant").classList.add("menu-container__button_deactive"): "";
     inputs.forEach((inp) => {
       inp.value = "";
     });
@@ -329,17 +332,13 @@ window.addEventListener("load", () => {
       let merchantGet = contentBody.querySelector("#get-merchant");
       let merchantItp = contentBody.querySelector("#itp-merchant");
       merchantInput.onkeyup = (evt) => {
-        let merInput = evt.target.value;
-        let getUrl = `https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=${merInput}&searchby=${merInput}`;
-        let itpUrl = `https://account.shareasale.com/admin/itp.cfm?merchantid=${merInput}`;
+        merchantGet.href = (/^\d+$/.test(evt.target.value.trim()) && parseInt(evt.target.value.trim()) > 95) ? `https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=${evt.target.value.trim()}&searchby=${evt.target.value.trim()}` : `https://account.shareasale.com/admin/index.cfm?searchby=${evt.target.value.trim()}&blnUserSearch=1&searchFor=merchants`;
+        merchantItp.href = `https://account.shareasale.com/admin/itp.cfm?merchantid=${evt.target.value.trim()}`;
 
-        parseInt(merInput) > 95
-          ? (merchantGet.classList.add("menu-container__button_active"),
-            (merchantGet.href = getUrl),
-            merchantItp.classList.add("menu-container__button_active"),
-            (merchantItp.href = itpUrl))
-          : (merchantGet.classList.remove("menu-container__button_active"),
-            merchantItp.classList.remove("menu-container__button_active"));
+        parseInt(evt.target.value.trim()) > 0
+          ? (merchantGet.classList.remove("menu-container__button_deactive"), merchantItp.classList.remove("menu-container__button_deactive"))
+          : (merchantGet.classList.add("menu-container__button_deactive"), merchantItp.classList.add("menu-container__button_deactive"));
+          
       };
     }
     // Handle Affiliate Buttons and input
@@ -349,13 +348,11 @@ window.addEventListener("load", () => {
       );
       let affiliateGet = contentBody.querySelector("#get-affiliate");
       affiliateInput.onkeyup = (evt) => {
-        let affInput = evt.target.value;
-        let affUrl = `https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=${affInput}&searchby=${affInput}`;
+        affiliateGet.href = (/^\d+$/.test(evt.target.value.trim()) && parseInt(evt.target.value.trim()) > 24) ? `https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=${evt.target.value.trim()}&searchby=${evt.target.value.trim()}` : `https://account.shareasale.com/admin/index.cfm?searchby=${evt.target.value.trim()}&blnUserSearch=1&searchFor=users`;
 
-        parseInt(affInput) > 24
-          ? (affiliateGet.classList.add("menu-container__button_active"),
-            (affiliateGet.href = affUrl))
-          : affiliateGet.classList.remove("menu-container__button_active");
+        parseInt(evt.target.value.trim()) > 0
+          ? affiliateGet.classList.remove("menu-container__button_deactive")
+          : affiliateGet.classList.add("menu-container__button_deactive");
       };
     }
     // Handle Decoder and FTP Buttons and input
