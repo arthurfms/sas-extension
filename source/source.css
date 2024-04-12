@@ -175,6 +175,12 @@
   opacity: 0.8;
   box-shadow: 3px 3px 5px 0px rgba(85, 85, 85, 0.25);
 }
+.menu-container__button_deactive {
+  pointer-events: none;
+  cursor: unset;
+  opacity: .8;
+  background: #c1c1c1;
+}
 .menu-container__left
   .menu-container__button:not(.menu-container__button_delete),
 .menu-container__left_mid
