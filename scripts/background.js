@@ -60,6 +60,11 @@ const setAffiliateOp = () => {
 const getOptions = () => {
   chrome.storage.sync.get(
     {
+      menucontext: true,
+      extension: true,
+      merContext: true,
+      itpContext: true,
+      affContext: true,
       datafeed: true,
       sasUI: true,
       decoder: true,
@@ -69,15 +74,13 @@ const getOptions = () => {
       itp: true,
       getAffiliate: true,
       testAffiliate: true,
-      backgroundColor: "#F4F5F4",
-      textColor: "#333333",
-      btnTextColor: "#333333",
-      buttonColor: "#F9B417",
     },
     (items) => {
-      setMerchantOp();
-      setItpOp();
-      setAffiliateOp();
+      if (items.menucontext) {
+        items.merContext ? setMerchantOp() : "";
+        items.itpContext ? setItpOp() : "";
+        items.affContext ? setAffiliateOp() : "";
+      }
     }
   );
 };

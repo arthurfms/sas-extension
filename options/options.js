@@ -13,14 +13,35 @@ window.addEventListener("load", () => {
       );
   });
 
-  const regexArr = [
-    /^#([0-9a-f]{3}){1,2}$/i,
-    /^#[0-9A-F]{6}[0-9a-f]{0,2}$/i,
-    /([0-9a-f]{3}){1,2}$/i,
-    /[0-9A-F]{6}[0-9a-f]{0,2}$/i,
-  ];
   // Saves options to chrome.storage
   const saveOptions = () => {
+    // NEW
+    let activateMenuContext = document
+      .querySelector("#menu-context-option .option__selection")
+      .classList.contains("option__selection_selected")
+      ? true
+      : false;
+    let activateExtension = document
+      .querySelector("#extension-option .option__selection")
+      .classList.contains("option__selection_selected")
+      ? true
+      : false;
+    let merchantContext = document
+      .querySelector("#merchant-context .option__selection")
+      .classList.contains("option__selection_selected")
+      ? true
+      : false;
+    let itpContext = document
+      .querySelector("#itp-context .option__selection")
+      .classList.contains("option__selection_selected")
+      ? true
+      : false;
+    let affiliateContext = document
+      .querySelector("#affiliate-context .option__selection")
+      .classList.contains("option__selection_selected")
+      ? true
+      : false;
+    // OLD
     let activateDatafeed = document
       .querySelector("#datafeed .option__selection")
       .classList.contains("option__selection_selected")
@@ -66,57 +87,14 @@ window.addEventListener("load", () => {
       .classList.contains("option__selection_selected")
       ? true
       : false;
-    let backgroundColor = setColorElement(
-      regexArr,
-      document.querySelector("#background-color .option__input").value,
-      "#F4F5F4"
-    );
-    document.querySelector("#background-color .option__input").placeholder =
-      setColorElement(
-        regexArr,
-        document.querySelector("#background-color .option__input").value,
-        "#F4F5F4"
-      );
-    document.querySelector("#background-color .option__input").value = "";
-    let textColor = setColorElement(
-      regexArr,
-      document.querySelector("#text-color .option__input").value,
-      "#333333"
-    );
-    document.querySelector("#text-color .option__input").placeholder =
-      setColorElement(
-        regexArr,
-        document.querySelector("#text-color .option__input").value,
-        "#333333"
-      );
-    document.querySelector("#text-color .option__input").value = "";
-    let btnTextColor = setColorElement(
-      regexArr,
-      document.querySelector("#btn-text-color .option__input").value,
-      "#333333"
-    );
-    document.querySelector("#btn-text-color .option__input").placeholder =
-      setColorElement(
-        regexArr,
-        document.querySelector("#btn-text-color .option__input").value,
-        "#333333"
-      );
-    document.querySelector("#btn-text-color .option__input").value = "";
-    let buttonColor = setColorElement(
-      regexArr,
-      document.querySelector("#button-color .option__input").value,
-      "#F9B417"
-    );
-    document.querySelector("#button-color .option__input").placeholder =
-      setColorElement(
-        regexArr,
-        document.querySelector("#button-color .option__input").value,
-        "#F9B417"
-      );
-    document.querySelector("#button-color .option__input").value = "";
 
     chrome.storage.sync.set(
       {
+        menucontext: activateMenuContext,
+        extension: activateExtension,
+        merContext: merchantContext,
+        itpContext: itpContext,
+        affContext: affiliateContext,
         datafeed: activateDatafeed,
         sasUI: sasUI,
         decoder: decoder,
@@ -126,10 +104,6 @@ window.addEventListener("load", () => {
         itp: itp,
         getAffiliate: getAffiliate,
         testAffiliate: testAffiliate,
-        backgroundColor: backgroundColor,
-        textColor: textColor,
-        btnTextColor: btnTextColor,
-        buttonColor: buttonColor,
       },
       () => {
         // Update status to let user know options were saved.
@@ -138,15 +112,22 @@ window.addEventListener("load", () => {
         setTimeout(() => {
           status.textContent = "";
         }, 750);
+        setTimeout(() => {
+          chrome.runtime.reload();
+        }, 2500);
       }
     );
   };
 
-  // Restores select box and checkbox state using the preferences
-  // stored in chrome.storage.
-  const restoreOptions = () => {
-    chrome.storage.sync.get(
+  // Saves options to chrome.storage
+  const resetOptions = () => {
+    chrome.storage.sync.set(
       {
+        menucontext: true,
+        extension: true,
+        merContext: true,
+        itpContext: true,
+        affContext: true,
         datafeed: true,
         sasUI: true,
         decoder: true,
@@ -156,12 +137,68 @@ window.addEventListener("load", () => {
         itp: true,
         getAffiliate: true,
         testAffiliate: true,
-        backgroundColor: "#F4F5F4",
-        textColor: "#333333",
-        btnTextColor: "#333333",
-        buttonColor: "#F9B417",
+      },
+      () => {
+        // Update status to let user know options were saved.
+        const status = document.querySelector(".action__status");
+        status.textContent = "Options Reseted!";
+        setTimeout(() => {
+          status.textContent = "";
+        }, 1000);
+        setTimeout(() => {
+          chrome.runtime.reload();
+        }, 2500);
+      }
+    );
+  };
+  // Restores select box and checkbox state using the preferences
+  // stored in chrome.storage.
+  const restoreOptions = () => {
+    chrome.storage.sync.get(
+      {
+        menucontext: true,
+        extension: true,
+        merContext: true,
+        itpContext: true,
+        affContext: true,
+        datafeed: true,
+        sasUI: true,
+        decoder: true,
+        ftpCred: true,
+        getMerchant: true,
+        testMerchant: true,
+        itp: true,
+        getAffiliate: true,
+        testAffiliate: true,
       },
       (items) => {
+        // NEW
+        items.menucontext
+          ? document
+              .querySelector("#menu-context-option .option__selection")
+              .classList.add("option__selection_selected")
+          : "";
+        items.extension
+          ? document
+              .querySelector("#extension-option .option__selection")
+              .classList.add("option__selection_selected")
+          : "";
+        items.merContext
+          ? document
+              .querySelector("#merchant-context .option__selection")
+              .classList.add("option__selection_selected")
+          : "";
+        items.itpContext
+          ? document
+              .querySelector("#itp-context .option__selection")
+              .classList.add("option__selection_selected")
+          : "";
+        items.affContext
+          ? document
+              .querySelector("#affiliate-context .option__selection")
+              .classList.add("option__selection_selected")
+          : "";
+        // OLD
         items.datafeed
           ? document
               .querySelector("#datafeed .option__selection")
@@ -207,29 +244,34 @@ window.addEventListener("load", () => {
               .querySelector("#test-affiliate .option__selection")
               .classList.add("option__selection_selected")
           : "";
-        document.querySelector("#background-color .option__input").placeholder =
-          setColorElement(regexArr, items.backgroundColor, "#F4F5F4");
-        document.querySelector("#text-color .option__input").placeholder =
-          setColorElement(regexArr, items.textColor, "#333333");
-        document.querySelector("#btn-text-color .option__input").placeholder =
-          setColorElement(regexArr, items.btnTextColor, "#333333");
-        document.querySelector("#button-color .option__input").placeholder =
-          setColorElement(regexArr, items.buttonColor, "#F4F5F4");
+
+        if (
+          !document
+            .querySelector("#menu-context-option .option__selection")
+            .classList.contains("option__selection_selected")
+        ) {
+          document
+            .querySelector("#menu-context-options")
+            .classList.add("options-section_disable");
+        }
+        if (
+          !document
+            .querySelector("#extension-option .option__selection")
+            .classList.contains("option__selection_selected")
+        ) {
+          document
+            .querySelector("#general-options")
+            .classList.add("options-section_disable");
+          document
+            .querySelector("#merchant-options")
+            .classList.add("options-section_disable");
+          document
+            .querySelector("#affiliate-options")
+            .classList.add("options-section_disable");
+        }
       }
     );
   };
-
-  function setColorElement(regexArray, input, std) {
-    let res = std;
-    regexArray.forEach((reg, index) => {
-      if (reg.test(input)) {
-        res = input.includes("#") ? input : `#${input}`;
-        console.log(res);
-        return res.toUpperCase();
-      }
-    });
-    return res.toUpperCase();
-  }
 
   let options = document.querySelectorAll(".option__selection");
   options.forEach((op) => {
@@ -263,9 +305,6 @@ window.addEventListener("load", () => {
         document
           .querySelector("#affiliate-options")
           .classList.remove("options-section_disable");
-        document
-          .querySelector("#design-options")
-          .classList.remove("options-section_disable");
       } else if (op.parentNode.id == "extension-option") {
         document
           .querySelector("#general-options")
@@ -276,9 +315,6 @@ window.addEventListener("load", () => {
         document
           .querySelector("#affiliate-options")
           .classList.add("options-section_disable");
-        document
-          .querySelector("#design-options")
-          .classList.add("options-section_disable");
       }
     });
   });
@@ -287,4 +323,8 @@ window.addEventListener("load", () => {
   document
     .querySelector("#save .action__button")
     .addEventListener("click", saveOptions);
+  restoreOptions();
+  document
+    .querySelector("#reset .action__button")
+    .addEventListener("click", resetOptions);
 });

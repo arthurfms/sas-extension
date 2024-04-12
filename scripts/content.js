@@ -429,6 +429,11 @@ window.addEventListener("load", () => {
   const getOptions = () => {
     chrome.storage.sync.get(
       {
+        menucontext: true,
+        extension: true,
+        merContext: true,
+        itpContext: true,
+        affContext: true,
         datafeed: true,
         sasUI: true,
         decoder: true,
@@ -438,60 +443,72 @@ window.addEventListener("load", () => {
         itp: true,
         getAffiliate: true,
         testAffiliate: true,
-        backgroundColor: "#F4F5F4",
-        textColor: "#333333",
-        btnTextColor: "#333333",
-        buttonColor: "#F9B417",
       },
       (items) => {
-        // Handle the page
-        let exIframe = createComponent("iframe", "sas-iframe", [
-          "sas-extension-iframe",
-        ]);
-        handleComponents(items, exIframe, exIframe.contentWindow.document.body);
+        if (items.extension) {
+          // Handle the page
+          let exIframe = createComponent("iframe", "sas-iframe", [
+            "sas-extension-iframe",
+          ]);
+          handleComponents(
+            items,
+            exIframe,
+            exIframe.contentWindow.document.body
+          );
 
-        // Adding Openning and closing Event Listener
-        let iframeBody = exIframe.contentWindow.document.body;
-        let handlerButton = iframeBody.querySelector(".extension-button");
-        // Open and close by clicking at the button
-        eventsHandler(handlerButton, [exIframe, iframeBody], "click", (el) => {
-          el[1].classList.toggle("sas-extension_active");
-          if (el[1].classList.contains("sas-extension_active")) {
-            (el[0].style.width = "445px"), (el[0].style.height = "455px");
-          } else {
-            (el[0].style.width = "40px"), (el[0].style.height = "75px");
-            cleanInputs(el[1]);
-          }
-        });
-        // Close when clicking out of the iframe
-        eventsHandler(document, [exIframe, iframeBody], "click", (el, evt) => {
-          (el[0].style.width = "40px"), (el[0].style.height = "75px");
-          el[1].classList.remove("sas-extension_active");
-          cleanInputs(el[1]);
-        });
-        // Close when clicking at close button
-        let closeButton = iframeBody.querySelector(".menu-footer__button");
-        eventsHandler(closeButton, [exIframe], "click", (el, evt) => {
-          el[0].remove();
-        });
-        // Handle Dark theme
-        if (
-          window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme:dark)").matches &&
-          document.querySelector("html").attributes["data-dark-theme"] !=
-            undefined &&
-          document.querySelector("html").attributes["data-color-mode"] !=
-            undefined
-        ) {
+          // Adding Openning and closing Event Listener
+          let iframeBody = exIframe.contentWindow.document.body;
+          let handlerButton = iframeBody.querySelector(".extension-button");
+          // Open and close by clicking at the button
+          eventsHandler(
+            handlerButton,
+            [exIframe, iframeBody],
+            "click",
+            (el) => {
+              el[1].classList.toggle("sas-extension_active");
+              if (el[1].classList.contains("sas-extension_active")) {
+                (el[0].style.width = "445px"), (el[0].style.height = "455px");
+              } else {
+                (el[0].style.width = "40px"), (el[0].style.height = "75px");
+                cleanInputs(el[1]);
+              }
+            }
+          );
+          // Close when clicking out of the iframe
+          eventsHandler(
+            document,
+            [exIframe, iframeBody],
+            "click",
+            (el, evt) => {
+              (el[0].style.width = "40px"), (el[0].style.height = "75px");
+              el[1].classList.remove("sas-extension_active");
+              cleanInputs(el[1]);
+            }
+          );
+          // Close when clicking at close button
+          let closeButton = iframeBody.querySelector(".menu-footer__button");
+          eventsHandler(closeButton, [exIframe], "click", (el, evt) => {
+            el[0].remove();
+          });
+          // Handle Dark theme
           if (
-            document.querySelector("html").attributes["data-dark-theme"]
-              .value == "dark" &&
-            document.querySelector("html").attributes["data-color-mode"]
-              .value == "auto"
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme:dark)").matches &&
+            document.querySelector("html").attributes["data-dark-theme"] !=
+              undefined &&
+            document.querySelector("html").attributes["data-color-mode"] !=
+              undefined
           ) {
-            iframeBody
-              .querySelector(".extension-button")
-              .classList.add("extension-button_dark");
+            if (
+              document.querySelector("html").attributes["data-dark-theme"]
+                .value == "dark" &&
+              document.querySelector("html").attributes["data-color-mode"]
+                .value == "auto"
+            ) {
+              iframeBody
+                .querySelector(".extension-button")
+                .classList.add("extension-button_dark");
+            }
           }
         }
       }
