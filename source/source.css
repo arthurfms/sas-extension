@@ -171,6 +171,9 @@
   cursor: pointer;
   transition: all 0.5s ease;
 }
+.menu-container__button:focus-visible, .menu-container__button:focus, .menu-container__button:focus-within {
+  outline: none;
+}
 .menu-container__button:hover {
   opacity: 0.8;
   box-shadow: 3px 3px 5px 0px rgba(85, 85, 85, 0.25);
