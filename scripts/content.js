@@ -253,7 +253,7 @@ window.addEventListener("load", () => {
         <input
         type="text"
         class="menu-container__input menu-container__input_merchant"
-        name="Merchant"
+        name="input_m"
         placeholder="Merchant ID"></input>
       `)
           : "";
@@ -298,7 +298,7 @@ window.addEventListener("load", () => {
           <input
           type="text"
           class="menu-container__input menu-container__input_affiliate"
-          name="Affiliate"
+          name="input_a"
           placeholder="Affiliate ID"></input>
           <a class="menu-container__button menu-container__button_deactive" id="get-affiliate" href="#" target="_parent" >
             Get Affiliate
