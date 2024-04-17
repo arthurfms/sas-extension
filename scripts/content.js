@@ -244,7 +244,6 @@ window.addEventListener("load", () => {
     if (
       options.getMerchant ||
       options.itp ||
-      options.getTestLink ||
       options.getAffiliate
     ) {
       let thirdContainer = document.createElement("div");
@@ -285,13 +284,6 @@ window.addEventListener("load", () => {
         </a>
       `)
           : "";
-        options.getTestLink
-          ? (leftCont.innerHTML += `
-        <a class="menu-container__button menu-container__button_deactive" id="get-test-link" href="#" target="_parent" >
-          Get Test Link
-        </a>
-      `)
-          : "";
         thirdContainer.append(leftCont);
       }
       if (options.getAffiliate || options.testAffiliate) {
@@ -328,21 +320,19 @@ window.addEventListener("load", () => {
     container.append(contentBody);
 
     // Handle Merchant Buttons and input
-    if (options.getMerchant || options.itp || options.getTestLink) {
+    if (options.getMerchant || options.itp) {
       let merchantInput = contentBody.querySelector(
         ".menu-container__input_merchant"
       );
       let merchantGet = contentBody.querySelector("#get-merchant");
       let merchantItp = contentBody.querySelector("#itp-merchant");
-      let merchantTestLink = contentBody.querySelector("#get-test-link");
       merchantInput.onkeyup = (evt) => {
         merchantGet.href = (/^\d+$/.test(evt.target.value.trim()) && parseInt(evt.target.value.trim()) > 95) ? `https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=${evt.target.value.trim()}&searchby=${evt.target.value.trim()}` : `https://account.shareasale.com/admin/index.cfm?searchby=${evt.target.value.trim()}&blnUserSearch=1&searchFor=merchants`;
         merchantItp.href = `https://account.shareasale.com/admin/itp.cfm?merchantid=${evt.target.value.trim()}`;
-        merchantTestLink.href = (/^\d+$/.test(evt.target.value.trim()) && parseInt(evt.target.value.trim()) > 95) ? `https://www.shareasale.com/r.cfm?b=439912&u=178&m=${evt.target.value.trim()}&urllink=&afftrack=` : "";
-
+        
         (/^\d+$/.test(evt.target.value.trim()) && parseInt(evt.target.value.trim()) > 95)
-          ? (merchantTestLink.classList.remove("menu-container__button_deactive"), merchantItp.classList.remove("menu-container__button_deactive"))
-          : (merchantTestLink.classList.add("menu-container__button_deactive"), merchantItp.classList.add("menu-container__button_deactive"));
+          ? merchantItp.classList.remove("menu-container__button_deactive")
+          : merchantItp.classList.add("menu-container__button_deactive");
 
         parseInt(evt.target.value.trim().length) > 1
           ? merchantGet.classList.remove("menu-container__button_deactive")
