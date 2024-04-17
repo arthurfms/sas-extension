@@ -80,7 +80,7 @@
   right: -500px;
   bottom: 0;
   width: 0;
-  height: 0;
+  height: fit-content;
   padding: 10px;
   visibility: hidden;
   display: flex;
@@ -96,7 +96,7 @@
 .sas-extension_active .menu {
   visibility: visible;
   width: 90%;
-  height: 100%;
+  height: fit-content;
   position: relative;
   right: 0;
 }
@@ -120,6 +120,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  row-gap: 5px;
 }
 .menu-container__header {
   width: 100%;
