@@ -18,7 +18,7 @@ const getOptions = () => {
       testAffiliate: true,
     },
     (items) => {
-      if (items.menucontext && (items.merContext || items.itpContext || items.affContext)) {
+      if (items.menucontext && (items.merContext || items.itpContext || items.testLinkContext || items.affContext)) {
 
         let contextOptions = {}
 
@@ -29,7 +29,6 @@ const getOptions = () => {
         // Add a listener to create the initial context menu items,
         // context menu items only need to be created at runtime.onInstalled
         for (const [op, title] of Object.entries(contextOptions)) {
-          console.log(`- Activating option: op: ${op} | title: ${title}`);
           chrome.contextMenus.create({
             id: op,
             title: title,
