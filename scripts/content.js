@@ -78,6 +78,7 @@ window.addEventListener("load", () => {
       inp.value = "";
     });
   };
+
   // Handling Options
   const handleOptions = (options, container) => {
     let extensionButton = document.createElement("div");
@@ -253,7 +254,7 @@ window.addEventListener("load", () => {
         <input
         type="text"
         class="menu-container__input menu-container__input_merchant"
-        name="input_m"
+        name="input_0${Math.floor(Math.random() * 100000)}"
         placeholder="Merchant ID"></input>
       `)
           : "";
@@ -298,7 +299,7 @@ window.addEventListener("load", () => {
           <input
           type="text"
           class="menu-container__input menu-container__input_affiliate"
-          name="input_a"
+          name="input_1${Math.floor(Math.random() * 100000)}"
           placeholder="Affiliate ID"></input>
           <a class="menu-container__button menu-container__button_deactive" id="get-affiliate" href="#" target="_parent" >
             Get Affiliate
