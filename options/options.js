@@ -15,7 +15,6 @@ window.addEventListener("load", () => {
   
     // Saves options to chrome.storage
     const saveOptions = () => {
-      // NEW
       let activateMenuContext = document
         .querySelector("#menu-context-option .option__selection")
         .classList.contains("option__selection_selected")
@@ -41,7 +40,6 @@ window.addEventListener("load", () => {
         .classList.contains("option__selection_selected")
         ? true
         : false;
-      // OLD
       let activateDatafeed = document
         .querySelector("#datafeed .option__selection")
         .classList.contains("option__selection_selected")
@@ -69,11 +67,6 @@ window.addEventListener("load", () => {
         : false;
       let itp = document
         .querySelector("#itp-merchant .option__selection")
-        .classList.contains("option__selection_selected")
-        ? true
-        : false;
-      let getTestLink = document
-        .querySelector("#get-test-link .option__selection")
         .classList.contains("option__selection_selected")
         ? true
         : false;
@@ -105,7 +98,6 @@ window.addEventListener("load", () => {
           decoder: decoder,
           ftpCred: ftpCred,
           getMerchant: getMerchant,
-          getTestLink: getTestLink,
           testMerchant: testMerchant,
           itp: itp,
           getAffiliate: getAffiliate,
@@ -139,7 +131,6 @@ window.addEventListener("load", () => {
           decoder: true,
           ftpCred: true,
           getMerchant: true,
-          getTestLink: true,
           testMerchant: true,
           itp: true,
           getAffiliate: true,
@@ -173,7 +164,6 @@ window.addEventListener("load", () => {
           decoder: true,
           ftpCred: true,
           getMerchant: true,
-          getTestLink: true,
           testMerchant: true,
           itp: true,
           getAffiliate: true,
@@ -233,11 +223,6 @@ window.addEventListener("load", () => {
           items.itp
             ? document
                 .querySelector("#itp-merchant .option__selection")
-                .classList.add("option__selection_selected")
-            : "";
-          items.getTestLink
-            ? document
-                .querySelector("#get-test-link .option__selection")
                 .classList.add("option__selection_selected")
             : "";
           items.testMerchant
