@@ -135,23 +135,35 @@ window.addEventListener("load", () => {
     `;
     let contentContainer = contentBody.querySelector(".menu-content");
 
-    // Create First Container (SASUI & DATAFEED)
-    if (options.sasUI && options.datafeed) {
+    // Create First Container (SASUI & DATAFEED & TEST ACCOUNTS)
+    if(options.sasUI || options.datafeed || options.testMerchant || options.testAffiliate) {
       let firstContainer = document.createElement("div");
       firstContainer.classList.add("menu-container");
-      firstContainer.innerHTML = `
-      <a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm" target="_parent">SAS UI</a>
-      <a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm" target="_parent">Datafeed</a>
-      `;
-      contentContainer.append(firstContainer);
-    } else if (options.sasUI || options.datafeed) {
-      let firstContainer = document.createElement("div");
-      firstContainer.classList.add("menu-container");
-      firstContainer.innerHTML = options.sasUI
-        ? `<a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm" target="_parent">SAS UI</a>`
-        : `<a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm" target="_parent">Datafeed</a>`;
+      options.sasUI
+          ? (firstContainer.innerHTML += `
+          <a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm" target="_parent">SAS UI</a>`)
+          : "";
+      options.sasUI
+          ? (firstContainer.innerHTML += `
+          <a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm" target="_parent">Datafeed</a>`)
+          : "";
+      options.testMerchant
+          ? (firstContainer.innerHTML += `
+        <a class="menu-container__button" id="test-merchant" href="https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=44911&searchby=44911" target="_parent" >
+          Test Merchant
+        </a>
+      `)
+          : "";
+        options.testAffiliate
+          ? (firstContainer.innerHTML += `
+        <a class="menu-container__button" id="test-affiliate" href="https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=178&searchby=178" target="_parent" >
+          Test Affiliate
+        </a>
+      `)
+          : "";
       contentContainer.append(firstContainer);
     }
+    
 
     // Create Second Container (DECODER & FTP)
     if (options.decoder && options.ftpCred) {
@@ -231,10 +243,8 @@ window.addEventListener("load", () => {
     // Create Third Container (MERCHANT & AFFILIATE)
     if (
       options.getMerchant ||
-      options.testMerchant ||
       options.itp ||
-      options.getAffiliate ||
-      options.testAffiliate
+      options.getAffiliate
     ) {
       let thirdContainer = document.createElement("div");
       thirdContainer.classList.add("menu-container");
@@ -274,14 +284,6 @@ window.addEventListener("load", () => {
         </a>
       `)
           : "";
-
-        options.testMerchant
-          ? (leftCont.innerHTML += `
-        <a class="menu-container__button" id="test-merchant" href="https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=44911&searchby=44911" target="_parent" >
-          Test Merchant
-        </a>
-      `)
-          : "";
         thirdContainer.append(leftCont);
       }
       if (options.getAffiliate || options.testAffiliate) {
@@ -304,14 +306,6 @@ window.addEventListener("load", () => {
           <a class="menu-container__button menu-container__button_deactive" id="get-affiliate" href="#" target="_parent" >
             Get Affiliate
           </a>
-      `)
-          : "";
-
-        options.testAffiliate
-          ? (rightCont.innerHTML += `
-        <a class="menu-container__button" id="test-affiliate" href="https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=178&searchby=178" target="_parent" >
-          Test Affiliate
-        </a>
       `)
           : "";
         thirdContainer.append(rightCont);
@@ -465,7 +459,7 @@ window.addEventListener("load", () => {
             (el) => {
               el[1].classList.toggle("sas-extension_active");
               if (el[1].classList.contains("sas-extension_active")) {
-                (el[0].style.width = "445px"), (el[0].style.height = "455px");
+                (el[0].style.width = "445px"), (el[0].style.height = `${el[1].querySelector(".menu").scrollHeight + 120}px`);
               } else {
                 (el[0].style.width = "40px"), (el[0].style.height = "75px");
                 cleanInputs(el[1]);
