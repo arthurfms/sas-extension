@@ -147,6 +147,10 @@
   width: 40%;
   margin-bottom: auto;
 }
+.menu-container__left_full,
+.menu-container__right_full {
+  width: 100%;
+}
 .menu-container__left_bigh,
 .menu-container__right_bigh {
   height: 100%;
