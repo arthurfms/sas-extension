@@ -96,7 +96,7 @@
 .sas-extension_active .menu {
   visibility: visible;
   width: 90%;
-  height: fit-content;
+  height: 100%;
   position: relative;
   right: 0;
 }
@@ -177,7 +177,9 @@
   cursor: pointer;
   transition: all 0.5s ease;
 }
-.menu-container__button:focus-visible, .menu-container__button:focus, .menu-container__button:focus-within {
+.menu-container__button:focus-visible,
+.menu-container__button:focus,
+.menu-container__button:focus-within {
   outline: none;
 }
 .menu-container__button:hover {
@@ -187,7 +189,7 @@
 .menu-container__button_deactive {
   pointer-events: none;
   cursor: unset;
-  opacity: .8;
+  opacity: 0.8;
   background: #c1c1c1;
 }
 .menu-container__left

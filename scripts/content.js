@@ -71,9 +71,21 @@ window.addEventListener("load", () => {
   // Cleaning Inputs
   const cleanInputs = (element) => {
     let inputs = element.querySelectorAll("input");
-    element.querySelector("#get-merchant") ? element.querySelector("#get-merchant").classList.add("menu-container__button_deactive"): "";
-    element.querySelector("#itp-merchant") ? element.querySelector("#itp-merchant").classList.add("menu-container__button_deactive"): "";
-    element.querySelector("#get-affiliate") ? element.querySelector("#get-affiliate").classList.add("menu-container__button_deactive"): "";
+    element.querySelector("#get-merchant")
+      ? element
+          .querySelector("#get-merchant")
+          .classList.add("menu-container__button_deactive")
+      : "";
+    element.querySelector("#itp-merchant")
+      ? element
+          .querySelector("#itp-merchant")
+          .classList.add("menu-container__button_deactive")
+      : "";
+    element.querySelector("#get-affiliate")
+      ? element
+          .querySelector("#get-affiliate")
+          .classList.add("menu-container__button_deactive")
+      : "";
     inputs.forEach((inp) => {
       inp.value = "";
     });
@@ -136,34 +148,38 @@ window.addEventListener("load", () => {
     let contentContainer = contentBody.querySelector(".menu-content");
 
     // Create First Container (SASUI & DATAFEED & TEST ACCOUNTS)
-    if(options.sasUI || options.datafeed || options.testMerchant || options.testAffiliate) {
+    if (
+      options.sasUI ||
+      options.datafeed ||
+      options.testMerchant ||
+      options.testAffiliate
+    ) {
       let firstContainer = document.createElement("div");
       firstContainer.classList.add("menu-container");
       options.sasUI
-          ? (firstContainer.innerHTML += `
+        ? (firstContainer.innerHTML += `
           <a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm" target="_parent">SAS UI</a>`)
-          : "";
+        : "";
       options.sasUI
-          ? (firstContainer.innerHTML += `
+        ? (firstContainer.innerHTML += `
           <a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm" target="_parent">Datafeed</a>`)
-          : "";
+        : "";
       options.testMerchant
-          ? (firstContainer.innerHTML += `
+        ? (firstContainer.innerHTML += `
         <a class="menu-container__button" id="test-merchant" href="https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=44911&searchby=44911" target="_parent" >
           Test Merchant
         </a>
       `)
-          : "";
-        options.testAffiliate
-          ? (firstContainer.innerHTML += `
+        : "";
+      options.testAffiliate
+        ? (firstContainer.innerHTML += `
         <a class="menu-container__button" id="test-affiliate" href="https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=178&searchby=178" target="_parent" >
           Test Affiliate
         </a>
       `)
-          : "";
+        : "";
       contentContainer.append(firstContainer);
     }
-    
 
     // Create Second Container (DECODER & FTP)
     if (options.decoder && options.ftpCred) {
@@ -241,11 +257,7 @@ window.addEventListener("load", () => {
     }
 
     // Create Third Container (MERCHANT & AFFILIATE)
-    if (
-      options.getMerchant ||
-      options.itp ||
-      options.getAffiliate
-    ) {
+    if (options.getMerchant || options.itp || options.getAffiliate) {
       let thirdContainer = document.createElement("div");
       thirdContainer.classList.add("menu-container");
 
@@ -285,7 +297,10 @@ window.addEventListener("load", () => {
       `)
           : "";
 
-          options.getAffiliate ? "" : (leftCont.classList.remove("menu-container__left_mid"), leftCont.classList.add("menu-container__left_full"));
+        options.getAffiliate
+          ? ""
+          : (leftCont.classList.remove("menu-container__left_mid"),
+            leftCont.classList.add("menu-container__left_full"));
         thirdContainer.append(leftCont);
       }
       if (options.getAffiliate) {
@@ -311,7 +326,10 @@ window.addEventListener("load", () => {
       `)
           : "";
 
-          (options.getMerchant || options.itp) ? "" : (rightCont.classList.remove("menu-container__left_mid"), rightCont.classList.add("menu-container__left_full"));
+        options.getMerchant || options.itp
+          ? ""
+          : (rightCont.classList.remove("menu-container__left_mid"),
+            rightCont.classList.add("menu-container__left_full"));
         thirdContainer.append(rightCont);
       }
       contentContainer.append(thirdContainer);
@@ -331,17 +349,21 @@ window.addEventListener("load", () => {
       let merchantGet = contentBody.querySelector("#get-merchant");
       let merchantItp = contentBody.querySelector("#itp-merchant");
       merchantInput.onkeyup = (evt) => {
-        merchantGet.href = (/^\d+$/.test(evt.target.value.trim()) && parseInt(evt.target.value.trim()) > 95) ? `https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=${evt.target.value.trim()}&searchby=${evt.target.value.trim()}` : `https://account.shareasale.com/admin/index.cfm?searchby=${evt.target.value.trim()}&blnUserSearch=1&searchFor=merchants`;
+        merchantGet.href =
+          /^\d+$/.test(evt.target.value.trim()) &&
+          parseInt(evt.target.value.trim()) > 95
+            ? `https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=${evt.target.value.trim()}&searchby=${evt.target.value.trim()}`
+            : `https://account.shareasale.com/admin/index.cfm?searchby=${evt.target.value.trim()}&blnUserSearch=1&searchFor=merchants`;
         merchantItp.href = `https://account.shareasale.com/admin/itp.cfm?merchantid=${evt.target.value.trim()}`;
-        
-        (/^\d+$/.test(evt.target.value.trim()) && parseInt(evt.target.value.trim()) > 95)
+
+        /^\d+$/.test(evt.target.value.trim()) &&
+        parseInt(evt.target.value.trim()) > 95
           ? merchantItp.classList.remove("menu-container__button_deactive")
           : merchantItp.classList.add("menu-container__button_deactive");
 
         parseInt(evt.target.value.trim().length) > 1
           ? merchantGet.classList.remove("menu-container__button_deactive")
           : merchantGet.classList.add("menu-container__button_deactive");
-          
       };
     }
     // Handle Affiliate Buttons and input
@@ -351,7 +373,11 @@ window.addEventListener("load", () => {
       );
       let affiliateGet = contentBody.querySelector("#get-affiliate");
       affiliateInput.onkeyup = (evt) => {
-        affiliateGet.href = (/^\d+$/.test(evt.target.value.trim()) && parseInt(evt.target.value.trim()) > 24) ? `https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=${evt.target.value.trim()}&searchby=${evt.target.value.trim()}` : `https://account.shareasale.com/admin/index.cfm?searchby=${evt.target.value.trim()}&blnUserSearch=1&searchFor=users`;
+        affiliateGet.href =
+          /^\d+$/.test(evt.target.value.trim()) &&
+          parseInt(evt.target.value.trim()) > 24
+            ? `https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=${evt.target.value.trim()}&searchby=${evt.target.value.trim()}`
+            : `https://account.shareasale.com/admin/index.cfm?searchby=${evt.target.value.trim()}&blnUserSearch=1&searchFor=users`;
 
         parseInt(evt.target.value.trim().length) > 1
           ? affiliateGet.classList.remove("menu-container__button_deactive")
@@ -468,7 +494,11 @@ window.addEventListener("load", () => {
             (el) => {
               el[1].classList.toggle("sas-extension_active");
               if (el[1].classList.contains("sas-extension_active")) {
-                (el[0].style.width = "445px"), (el[0].style.height = `${el[1].querySelector(".menu").scrollHeight + 120}px`);
+                (el[0].style.width = "445px"),
+                  (el[0].style.height = `${
+                    el[1].querySelector(".menu").scrollHeight + 120
+                  }px`);
+                console.log(el[1].querySelector(".menu").scrollHeight);
               } else {
                 (el[0].style.width = "40px"), (el[0].style.height = "75px");
                 cleanInputs(el[1]);
