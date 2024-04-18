@@ -249,7 +249,7 @@ window.addEventListener("load", () => {
       let thirdContainer = document.createElement("div");
       thirdContainer.classList.add("menu-container");
 
-      if (options.getMerchant || options.testMerchant || options.itp) {
+      if (options.getMerchant || options.itp) {
         let leftCont = document.createElement("div");
         leftCont.classList.add("menu-container__left");
         leftCont.classList.add("menu-container__left_mid");
@@ -284,9 +284,11 @@ window.addEventListener("load", () => {
         </a>
       `)
           : "";
+
+          options.getAffiliate ? "" : (leftCont.classList.remove("menu-container__left_mid"), leftCont.classList.add("menu-container__left_full"));
         thirdContainer.append(leftCont);
       }
-      if (options.getAffiliate || options.testAffiliate) {
+      if (options.getAffiliate) {
         let rightCont = document.createElement("div");
         rightCont.classList.add("menu-container__right");
         rightCont.classList.add("menu-container__right_mid");
@@ -308,6 +310,8 @@ window.addEventListener("load", () => {
           </a>
       `)
           : "";
+
+          (options.getMerchant || options.itp) ? "" : (rightCont.classList.remove("menu-container__left_mid"), rightCont.classList.add("menu-container__left_full"));
         thirdContainer.append(rightCont);
       }
       contentContainer.append(thirdContainer);
