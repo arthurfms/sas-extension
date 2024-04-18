@@ -160,7 +160,7 @@ window.addEventListener("load", () => {
         ? (firstContainer.innerHTML += `
           <a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm" target="_parent">SAS UI</a>`)
         : "";
-      options.sasUI
+      options.datafeed
         ? (firstContainer.innerHTML += `
           <a class="menu-container__button" id="datafeed" href="https://account.shareasale.com/admin/datafeedqueue.cfm" target="_parent">Datafeed</a>`)
         : "";
@@ -182,13 +182,16 @@ window.addEventListener("load", () => {
     }
 
     // Create Second Container (DECODER & FTP)
-    if (options.decoder && options.ftpCred) {
+    if (options.decoder || options.ftpCred) {
       let secondContainer = document.createElement("div");
       secondContainer.classList.add("menu-container");
-      secondContainer.innerHTML = `
-      <div class="menu-container__left">
-        <button class="menu-container__button" id="decoder">
-          Decode URL
+      let leftDiv = document.createElement("div");
+      leftDiv.classList.add("menu-container__left");
+
+      options.ftpCred
+        ? (leftDiv.innerHTML += `
+        <button class="menu-container__button" id="ftp">
+          Generate FTP Cred.
         </button>
         <div class="menu-container__button menu-container__button_delete">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -196,10 +199,29 @@ window.addEventListener("load", () => {
               d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
           </svg>
         </div>
-        <button class="menu-container__button" id="ftp">
-          Generate FTP Cred.
-        </button>
-      </div>
+        
+      `)
+        : "";
+      options.decoder
+        ? (leftDiv.innerHTML += `
+        <button class="menu-container__button" id="decoder">
+          Decode URL
+        </button>        
+      `)
+        : "";
+      !options.ftpCred
+        ? (leftDiv.innerHTML += `
+        <div class="menu-container__button menu-container__button_delete">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path
+              d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
+          </svg>
+        </div>
+        
+      `)
+        : "";
+      secondContainer.append(leftDiv);
+      secondContainer.innerHTML += `
       <div class="menu-container__right menu-container__right_bigh">
         <textarea
           class="menu-container__input menu-container__result" 
@@ -208,51 +230,6 @@ window.addEventListener("load", () => {
           placeholder="URL or FTP Credentials"></textarea>
       </div>
       `;
-      contentContainer.append(secondContainer);
-    } else if (options.decoder || options.ftpCred) {
-      let secondContainer = document.createElement("div");
-      secondContainer.classList.add("menu-container");
-      secondContainer.innerHTML = options.decoder
-        ? `
-        <div class="menu-container__left">
-          <button class="menu-container__button" id="decoder">
-            Decode URL
-          </button>
-          <div class="menu-container__button menu-container__button_delete">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-              <path
-                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
-            </svg>
-          </div>
-        </div>
-        <div class="menu-container__right menu-container__right_bigh">
-          <textarea
-            class="menu-container__input menu-container__result" 
-            id="dec-ftp-input" 
-            name="result"
-            placeholder="URL or FTP Credentials"></textarea>
-        </div>
-        `
-        : `
-        <div class="menu-container__left">
-          <div class="menu-container__button menu-container__button_delete">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-              <path
-                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
-            </svg>
-          </div>
-          <button class="menu-container__button" id="ftp">
-            Generate FTP Cred.
-          </button>
-        </div>
-        <div class="menu-container__right menu-container__right_bigh">
-          <textarea
-            class="menu-container__input menu-container__result" 
-            id="dec-ftp-input" 
-            name="result"
-            placeholder="URL or FTP Credentials"></textarea>
-        </div>
-        `;
       contentContainer.append(secondContainer);
     }
 
@@ -271,7 +248,7 @@ window.addEventListener("load", () => {
       </div>
       `;
 
-        options.getMerchant || options.itp || options.getTestLink
+        options.getMerchant || options.itp
           ? (leftCont.innerHTML += `
         <input
         type="text"
@@ -346,24 +323,32 @@ window.addEventListener("load", () => {
       let merchantInput = contentBody.querySelector(
         ".menu-container__input_merchant"
       );
-      let merchantGet = contentBody.querySelector("#get-merchant");
-      let merchantItp = contentBody.querySelector("#itp-merchant");
+      let merchantGet = options.getMerchant
+        ? contentBody.querySelector("#get-merchant")
+        : "";
+      let merchantItp = options.itp
+        ? contentBody.querySelector("#itp-merchant")
+        : "";
       merchantInput.onkeyup = (evt) => {
-        merchantGet.href =
+        if (options.getMerchant) {
+          merchantGet.href =
+            /^\d+$/.test(evt.target.value.trim()) &&
+            parseInt(evt.target.value.trim()) > 95
+              ? `https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=${evt.target.value.trim()}&searchby=${evt.target.value.trim()}`
+              : `https://account.shareasale.com/admin/index.cfm?searchby=${evt.target.value.trim()}&blnUserSearch=1&searchFor=merchants`;
+
+          parseInt(evt.target.value.trim().length) > 1
+            ? merchantGet.classList.remove("menu-container__button_deactive")
+            : merchantGet.classList.add("menu-container__button_deactive");
+        }
+        if (options.itp) {
+          merchantItp.href = `https://account.shareasale.com/admin/itp.cfm?merchantid=${evt.target.value.trim()}`;
+
           /^\d+$/.test(evt.target.value.trim()) &&
           parseInt(evt.target.value.trim()) > 95
-            ? `https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=${evt.target.value.trim()}&searchby=${evt.target.value.trim()}`
-            : `https://account.shareasale.com/admin/index.cfm?searchby=${evt.target.value.trim()}&blnUserSearch=1&searchFor=merchants`;
-        merchantItp.href = `https://account.shareasale.com/admin/itp.cfm?merchantid=${evt.target.value.trim()}`;
-
-        /^\d+$/.test(evt.target.value.trim()) &&
-        parseInt(evt.target.value.trim()) > 95
-          ? merchantItp.classList.remove("menu-container__button_deactive")
-          : merchantItp.classList.add("menu-container__button_deactive");
-
-        parseInt(evt.target.value.trim().length) > 1
-          ? merchantGet.classList.remove("menu-container__button_deactive")
-          : merchantGet.classList.add("menu-container__button_deactive");
+            ? merchantItp.classList.remove("menu-container__button_deactive")
+            : merchantItp.classList.add("menu-container__button_deactive");
+        }
       };
     }
     // Handle Affiliate Buttons and input
@@ -387,20 +372,26 @@ window.addEventListener("load", () => {
     // Handle Decoder and FTP Buttons and input
     if (options.decoder || options.ftpCred) {
       let decftpInput = contentBody.querySelector("#dec-ftp-input");
-      let decButton = contentBody.querySelector("#decoder");
-      let ftpButton = contentBody.querySelector("#ftp");
+      let decButton = options.decoder
+        ? contentBody.querySelector("#decoder")
+        : "";
+      let ftpButton = options.ftpCred ? contentBody.querySelector("#ftp") : "";
       let deleteButton = contentBody.querySelector(
         ".menu-container__button_delete"
       );
 
-      decButton.addEventListener("click", () => {
-        decodeUrl(decftpInput.value, decftpInput);
-      });
-      ftpButton.addEventListener("click", () => {
-        decftpInput.value.length > 15
-          ? generateFTP(decftpInput.value, decftpInput)
-          : "";
-      });
+      options.decoder
+        ? decButton.addEventListener("click", () => {
+            decodeUrl(decftpInput.value, decftpInput);
+          })
+        : "";
+      options.ftpCred
+        ? ftpButton.addEventListener("click", () => {
+            decftpInput.value.length > 15
+              ? generateFTP(decftpInput.value, decftpInput)
+              : "";
+          })
+        : "";
       deleteButton.addEventListener("click", () => {
         decftpInput.value = "";
         decftpInput.scrollTop = 0;
@@ -465,14 +456,27 @@ window.addEventListener("load", () => {
         decoder: true,
         ftpCred: true,
         getMerchant: true,
-        getTestLink: true,
         testMerchant: true,
         itp: true,
         getAffiliate: true,
         testAffiliate: true,
       },
       (items) => {
-        if (items.extension) {
+        if (
+          items.extension &&
+          (items.datafeed ||
+            items.sasUI ||
+            items.decoder ||
+            items.ftpCred ||
+            items.getMerchant ||
+            items.testMerchant ||
+            items.itp ||
+            items.getAffiliate ||
+            items.testAffiliate)
+        ) {
+          console.log(
+            `extension: ${items.extension} | datafeed: ${items.datafeed} | sasUI: ${items.sasUI} | decoder: ${items.decoder} | ftpCred: ${items.ftpCred} | getMerchant: ${items.getMerchant} | testMerchant: ${items.testMerchant} | itp: ${items.itp} | getAffiliate: ${items.getAffiliate} | testAffiliate: ${items.testAffiliate}`
+          );
           // Handle the page
           let exIframe = createComponent("iframe", "sas-iframe", [
             "sas-extension-iframe",
