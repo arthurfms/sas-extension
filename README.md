@@ -30,4 +30,5 @@ Please contact us if you have any question or suggestion: arthur.fernandes@awin.
 Use [this link](#) to report a bug or send feedback, your opinion is appreciated!
 
 
-© ShareASale | Global Integration Team - 2024
+
+***© ShareASale | Global Integration Team - 2024***
