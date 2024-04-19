@@ -25,7 +25,8 @@
 
 </details>
 
-Please contact us if you have any question or suggestion: arthur.fernandes@awin.com
+Please contact us if you have any question or suggestion: arthur.fernandes@awin.com.
+
 Use [this link](#) to report a bug or send feedback, your opinion is appreciated!
 
 
