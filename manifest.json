@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SAS Internal Extension",
   "version": "1.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "description": "ShareASale internal extension",
   "permissions": ["storage", "contextMenus"],
   "icons": {
@@ -19,6 +19,6 @@
   ],
   "options_page": "options/options.html",
   "background": {
-    "scripts": ["scripts/background.js"]
+    "service_worker": "scripts/background.js"
   }
 }
