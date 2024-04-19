@@ -1,4 +1,3 @@
-console.log("BG HERE");
 const getOptions = () => {
   chrome.storage.sync.get(
     {

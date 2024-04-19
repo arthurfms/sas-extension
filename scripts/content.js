@@ -474,9 +474,6 @@ window.addEventListener("load", () => {
             items.getAffiliate ||
             items.testAffiliate)
         ) {
-          console.log(
-            `extension: ${items.extension} | datafeed: ${items.datafeed} | sasUI: ${items.sasUI} | decoder: ${items.decoder} | ftpCred: ${items.ftpCred} | getMerchant: ${items.getMerchant} | testMerchant: ${items.testMerchant} | itp: ${items.itp} | getAffiliate: ${items.getAffiliate} | testAffiliate: ${items.testAffiliate}`
-          );
           // Handle the page
           let exIframe = createComponent("iframe", "sas-iframe", [
             "sas-extension-iframe",
@@ -502,7 +499,6 @@ window.addEventListener("load", () => {
                   (el[0].style.height = `${
                     el[1].querySelector(".menu").scrollHeight + 120
                   }px`);
-                console.log(el[1].querySelector(".menu").scrollHeight);
               } else {
                 (el[0].style.width = "40px"), (el[0].style.height = "75px");
                 cleanInputs(el[1]);
