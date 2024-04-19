@@ -314,7 +314,7 @@ window.addEventListener("load", () => {
 
     let footer = document.createElement("div");
     footer.classList.add("menu-footer");
-    footer.innerHTML = `<p class="menu-footer__button">Close Extension</p>`;
+    footer.innerHTML = `<p class="menu-footer__button">Hide Extension</p>`;
     contentBody.append(footer);
     container.append(contentBody);
 
