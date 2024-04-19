@@ -27,7 +27,7 @@
 
 Please contact us if you have any question or suggestion: arthur.santos@awin.com.
 
-Use [this link](#) to report a bug or send feedback, your opinion is appreciated!
+Use [this link](https://forms.office.com/Pages/ResponsePage.aspx?id=07KaWlh7JUWYUdFycma616g2cST2-q5KjLNHxAQeG-RUNzc3Qjk0MVg2MU1UMk44WVI3Q1lDMTZKRy4u) to report a bug or send feedback, your opinion is appreciated!
 
 
 
