@@ -47,33 +47,29 @@ const getOptions = () => {
 
         // Open a new search tab when the user clicks a context menu
         chrome.contextMenus.onClicked.addListener((item, tab) => {
+          console.log(`clicked: ${item.menuItemId}`);
           let opId = item.menuItemId;
           let url;
           let validatedUrl;
-
-          switch (opId) {
-            case "merchant":
-              validatedUrl =
+          if (opId == 'merchant') {
+            validatedUrl =
                 /^\d+$/.test(item.selectionText.trim()) &&
                 parseInt(item.selectionText.trim()) > 95
                   ? `https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=${item.selectionText.trim()}&searchby=${item.selectionText.trim()}`
                   : `https://account.shareasale.com/admin/index.cfm?searchby=${item.selectionText.trim()}&blnUserSearch=1&searchFor=merchants`;
               url = new URL(validatedUrl);
-              break;
-            case "itp":
-              validatedUrl = `https://account.shareasale.com/admin/itp.cfm?merchantid=${item.selectionText.trim()}&searchby=${item.selectionText.trim()}`;
+          } else if (opId == 'itp') {
+            validatedUrl = parseInt(item.selectionText.trim()) > 95 ? `https://account.shareasale.com/admin/itp.cfm?merchantid=${item.selectionText.trim()}&searchby=${item.selectionText.trim()}` : "";
               url = new URL(validatedUrl);
-              break;
-            case "affiliate":
-              validatedUrl =
+          } else {
+            validatedUrl =
                 /^\d+$/.test(item.selectionText.trim()) &&
                 parseInt(item.selectionText.trim()) > 24
                   ? `https://account.shareasale.com/admin/adminDetailsAffiliate.cfm?userid=${item.selectionText.trim()}&searchby=${item.selectionText.trim()}`
                   : `https://account.shareasale.com/admin/index.cfm?searchby=${item.selectionText.trim()}&blnUserSearch=1&searchFor=users`;
               url = new URL(validatedUrl);
-              break;
           }
-
+          
           chrome.tabs.create({ url: url.href, index: tab.index + 1 });
         });
       }
