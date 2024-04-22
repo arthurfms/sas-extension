@@ -20,6 +20,14 @@ window.addEventListener("load", () => {
     });
   };
 
+  // Handling styles for element
+  const handleStyles = (element, styleObj) => {
+    let tempStyle = "";
+    Object.keys(styleObj).forEach((key) => {
+      tempStyle += `${key}: ${styleObj[key]}; `;
+    });
+    element.style = tempStyle;
+  }
   // Decode URL
   const decodeUrl = (inp, container) => {
     let decodedUrl = decodeURIComponent(inp);
@@ -401,11 +409,10 @@ window.addEventListener("load", () => {
   };
 
   // Generating components
-  const handleComponents = (optionsItems, element, container) => {
+  const handleComponents = (optionsItems, element, container, newStyle) => {
     //adding element attributes
     element.title = "SAS Internal Extension";
-    element.style =
-      "width: 40px; height: 70px; position: fixed; bottom: 75px; right: 0px; border: none; background: transparent; z-index: 100";
+    handleStyles(element, newStyle);
 
     // Create style elements
     let styleLink = document.createElement("link");
@@ -478,10 +485,30 @@ window.addEventListener("load", () => {
           let exIframe = createComponent("iframe", "sas-iframe", [
             "sas-extension-iframe",
           ]);
+          let iframeStyle = {
+            "width": "35px",
+            "height": "70px",
+            "position": "fixed",
+            "bottom": "75px",
+            "right": "0px",
+            "border": "none",
+            "background": "transparent",
+            "z-index": "100",
+            "border-radius": "40px 0px 0px 40px",
+            "background": "rgba(244, 244, 244, 0.35)",
+            "box-shadow": "-2px 2px 3px 0px rgba(0, 0, 0, 0.1)",
+             "backdrop-filter": "blur(6px)",
+             "-webkit-backdrop-filter": "blur(6px)",
+             "cursor": "pointer",
+             "transition": "all 0.35s ease"
+          }
+          
+          
           handleComponents(
             items,
             exIframe,
-            exIframe.contentWindow.document.body
+            exIframe.contentWindow.document.body,
+            iframeStyle
           );
 
           // Adding Openning and closing Event Listener
@@ -499,9 +526,11 @@ window.addEventListener("load", () => {
                   (el[0].style.height = `${
                     el[1].querySelector(".menu").scrollHeight + 120
                   }px`);
+                el[0].classList.add("sas-extension-iframe_active");
               } else {
-                (el[0].style.width = "40px"), (el[0].style.height = "75px");
+                (el[0].style.width = "35px"), (el[0].style.height = "70px");
                 cleanInputs(el[1]);
+                el[0].classList.remove("sas-extension-iframe_active");
               }
             }
           );
@@ -511,9 +540,10 @@ window.addEventListener("load", () => {
             [exIframe, iframeBody],
             "click",
             (el, evt) => {
-              (el[0].style.width = "40px"), (el[0].style.height = "75px");
+              (el[0].style.width = "35px"), (el[0].style.height = "70px");
               el[1].classList.remove("sas-extension_active");
               cleanInputs(el[1]);
+              el[0].classList.remove("sas-extension-iframe_active");
             }
           );
           // Close when clicking at close button
@@ -536,6 +566,7 @@ window.addEventListener("load", () => {
               document.querySelector("html").attributes["data-color-mode"]
                 .value == "auto"
             ) {
+              exIframe.classList.add("sas-extension-iframe_dark");
               iframeBody
                 .querySelector(".extension-button")
                 .classList.add("extension-button_dark");
