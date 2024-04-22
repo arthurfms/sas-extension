@@ -28,13 +28,11 @@
   -webkit-backdrop-filter: blur(6px);
 }
 
-.extension-button:hover {
-  box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.25);
-}
 .extension-button__logo {
   width: 25px;
   position: relative;
   margin: auto 0 auto auto;
+  transition: all .5s ease;
 }
 .extension-button__logo-path {
   fill: #f9b316;
