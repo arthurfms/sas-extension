@@ -19,15 +19,6 @@ window.addEventListener("load", () => {
       callBack(elements, evt);
     });
   };
-
-  // Handling styles for element
-  const handleStyles = (element, styleObj) => {
-    let tempStyle = "";
-    Object.keys(styleObj).forEach((key) => {
-      tempStyle += `${key}: ${styleObj[key]}; `;
-    });
-    element.style = tempStyle;
-  }
   // Decode URL
   const decodeUrl = (inp, container) => {
     let decodedUrl = decodeURIComponent(inp);
@@ -409,10 +400,9 @@ window.addEventListener("load", () => {
   };
 
   // Generating components
-  const handleComponents = (optionsItems, element, container, newStyle) => {
+  const handleComponents = (optionsItems, element, container) => {
     //adding element attributes
     element.title = "SAS Internal Extension";
-    handleStyles(element, newStyle);
 
     // Create style elements
     let styleLink = document.createElement("link");
@@ -482,33 +472,38 @@ window.addEventListener("load", () => {
             items.testAffiliate)
         ) {
           // Handle the page
+          let styleElement = createComponent("style", "sas-iframe-style", []);
+          styleElement.innerHTML = `
+          #sas-iframe.sas-extension-iframe {
+            width: 35px;
+            height: 70px;
+            position: fixed;
+            bottom: 75px;
+            right: 0px;
+            border: none;
+            background: transparent;
+            z-index: 100;
+            border-radius: 40px 0px 0px 40px;
+            background: rgba(244, 244, 244, 0.35);
+            box-shadow: -2px 2px 3px 0px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            cursor: pointer;
+            transition: all 0.35s ease;
+          }
+          #sas-iframe.sas-extension-iframe:hover {
+            box-shadow: -3px 2px 3px 0px rgba(0, 0, 0, 0.2);
+          }
+          `;
           let exIframe = createComponent("iframe", "sas-iframe", [
             "sas-extension-iframe",
           ]);
-          let iframeStyle = {
-            "width": "35px",
-            "height": "70px",
-            "position": "fixed",
-            "bottom": "75px",
-            "right": "0px",
-            "border": "none",
-            "background": "transparent",
-            "z-index": "100",
-            "border-radius": "40px 0px 0px 40px",
-            "background": "rgba(244, 244, 244, 0.35)",
-            "box-shadow": "-2px 2px 3px 0px rgba(0, 0, 0, 0.1)",
-             "backdrop-filter": "blur(6px)",
-             "-webkit-backdrop-filter": "blur(6px)",
-             "cursor": "pointer",
-             "transition": "all 0.35s ease"
-          }
           
           
           handleComponents(
             items,
             exIframe,
-            exIframe.contentWindow.document.body,
-            iframeStyle
+            exIframe.contentWindow.document.body
           );
 
           // Adding Openning and closing Event Listener
