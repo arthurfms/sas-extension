@@ -12,6 +12,7 @@
   align-items: center;
   overflow: hidden;
 }
+.sas-extension:not(.sas-extension_active) { cursor: pointer;}
 .extension-button {
   display: flex;
   align-items: center;
