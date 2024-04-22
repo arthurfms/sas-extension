@@ -42,7 +42,7 @@ const getOptions = () => {
             title: title,
             type: "normal",
             contexts: ["selection"],
-          });
+          }, () => chrome.runtime.lastError);
         }
 
         // Open a new search tab when the user clicks a context menu
