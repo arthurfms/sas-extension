@@ -36,6 +36,7 @@ const getOptions = () => {
         // Add a listener to create the initial context menu items,
         // context menu items only need to be created at runtime.onInstalled
         for (const [op, title] of Object.entries(contextOptions)) {
+          console.log(`contextMenu option: ${op}`);
           chrome.contextMenus.create({
             id: op,
             title: title,
