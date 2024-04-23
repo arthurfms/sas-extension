@@ -490,6 +490,7 @@ window.addEventListener("load", () => {
             -webkit-backdrop-filter: blur(6px);
             cursor: pointer;
             transition: all 0.35s ease;
+            z-index: 100000000;
           }
           #sas-iframe.sas-extension-iframe:hover {
             box-shadow: -3px 2px 3px 0px rgba(0, 0, 0, 0.2);
