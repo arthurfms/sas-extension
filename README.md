@@ -31,13 +31,20 @@ Use [this link](https://forms.office.com/Pages/ResponsePage.aspx?id=07KaWlh7JUWY
 
 
 Latest Updates: 
+
 :white_check_mark: Removed the context menu options leeaving only the "Merchant" option, change made to fix the first click error.
+
 :white_check_mark: Style changes, added a style tag with iframe styles on the website. Change made to improve styles from the iframe and solve dark mode style issues.
 
+
 Coming Soon:
+
 :hourglass_flowing_sand: Decode/FTP area organization to have the textarea at a vertical position: improve readability and usability of the input.
+
 :hourglass_flowing_sand: Create a popup window when clicking at the extension button: new feature to allow user to activate this popup and use the tools in there.
+
 :grey_question: Add the option to reorder the fields and improve the usability for each user.
+
 :grey_question: Add the option to choose the size of the Decode/FTP textarea input. 
 
 
