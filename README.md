@@ -38,6 +38,7 @@ Latest Updates:
 
 
 Coming Soon:
+:hourglass_flowing_sand: Add full decoded link in place of base url before parameter's list.
 
 :hourglass_flowing_sand: Decode/FTP area organization to have the textarea at a vertical position: improve readability and usability of the input.
 
