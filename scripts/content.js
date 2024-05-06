@@ -28,7 +28,7 @@ window.addEventListener("load", () => {
       ? decodedUrl.split("?")[1].split("&")
       : decodedUrl.split("&");
     container.value = "";
-    mainUrl ? (container.value = `${mainUrl}\n\n`) : "";
+    container.value = `${decodedUrl}\n\n`;
     queryParams.forEach((param, index) => {
       index == 0
         ? (container.value = container.value + `${param}`)
