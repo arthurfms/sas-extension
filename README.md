@@ -44,6 +44,8 @@ Coming Soon:
 
 :hourglass_flowing_sand: Create a popup window when clicking at the extension button: new feature to allow user to activate this popup and use the tools in there.
 
+:hourglass_flowing_sand: Allow the user to add buttons with customized links
+
 :grey_question: Add the option to reorder the fields and improve the usability for each user.
 
 :grey_question: Add the option to choose the size of the Decode/FTP textarea input. 
