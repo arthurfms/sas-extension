@@ -155,6 +155,7 @@ window.addEventListener("load", () => {
     ) {
       let firstContainer = document.createElement("div");
       firstContainer.classList.add("menu-container");
+      firstContainer.classList.add("menu-container_buttons");
       options.sasUI
         ? (firstContainer.innerHTML += `
           <a class="menu-container__button" id="sas-ui" href="https://account.shareasale.com/admin/index.cfm" target="_parent">SAS UI</a>`)
@@ -184,9 +185,9 @@ window.addEventListener("load", () => {
     if (options.decoder || options.ftpCred) {
       let secondContainer = document.createElement("div");
       secondContainer.classList.add("menu-container");
+      secondContainer.classList.add("menu-container_textarea");
       let leftDiv = document.createElement("div");
       leftDiv.classList.add("menu-container__left");
-      leftDiv.classList.add("menu-container_buttons");
 
       options.ftpCred
         ? (leftDiv.innerHTML += `
@@ -222,7 +223,7 @@ window.addEventListener("load", () => {
         : "";
       secondContainer.append(leftDiv);
       secondContainer.innerHTML += `
-      <div class="menu-container__right menu-container_textarea">
+      <div class="menu-container__right">
         <textarea
           class="menu-container__input menu-container__result" 
           id="dec-ftp-input" 
@@ -409,8 +410,7 @@ window.addEventListener("load", () => {
     let styleLink = document.createElement("link");
     styleLink.type = "text/css";
     styleLink.rel = "stylesheet";
-    styleLink.href =
-      "https://arthurfms.github.io/sas-extension/source/source.css";
+    styleLink.href = "";
     let resetLink = document.createElement("link");
     resetLink.type = "text/css";
     resetLink.rel = "stylesheet";
