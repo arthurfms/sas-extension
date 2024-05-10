@@ -410,7 +410,8 @@ window.addEventListener("load", () => {
     let styleLink = document.createElement("link");
     styleLink.type = "text/css";
     styleLink.rel = "stylesheet";
-    styleLink.href = "";
+    styleLink.href =
+      "https://arthurfms.github.io/sas-extension/source/source.css";
     let resetLink = document.createElement("link");
     resetLink.type = "text/css";
     resetLink.rel = "stylesheet";
