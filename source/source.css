@@ -139,7 +139,7 @@
 .menu-container__left_bigh,
 .menu-container__right_bigh {
   height: 100%;
-  min-height: 65px;
+  width: 65%;
 }
 .menu-container__left_bigw,
 .menu-container__right_bigw {
@@ -190,16 +190,16 @@
 }
 .menu-container__left
   .menu-container__button:first-child:not(.menu-container__button_delete) {
-  width: 70%;
+  width: 100%;
 }
 .menu-container__left_bigw .menu-container__button,
 .menu-container__right_bigw .menu-container__button,
 .menu-container__left_bigw .menu-container__input,
 .menu-container__right_bigw .menu-container__input {
-  width: 35%;
+  width: 100%;
 }
 .menu-container__button_delete {
-  width: 25%;
+  width: 100%;
 }
 .menu-container__button_delete:hover {
   opacity: 0.8;
