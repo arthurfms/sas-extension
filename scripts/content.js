@@ -186,6 +186,7 @@ window.addEventListener("load", () => {
       secondContainer.classList.add("menu-container");
       let leftDiv = document.createElement("div");
       leftDiv.classList.add("menu-container__left");
+      leftDiv.classList.add("menu-container_buttons");
 
       options.ftpCred
         ? (leftDiv.innerHTML += `
@@ -221,7 +222,7 @@ window.addEventListener("load", () => {
         : "";
       secondContainer.append(leftDiv);
       secondContainer.innerHTML += `
-      <div class="menu-container__right menu-container__right_bigh">
+      <div class="menu-container__right menu-container_textarea">
         <textarea
           class="menu-container__input menu-container__result" 
           id="dec-ftp-input" 
