@@ -499,8 +499,7 @@ window.addEventListener("load", () => {
           let exIframe = createComponent("iframe", "sas-iframe", [
             "sas-extension-iframe",
           ]);
-          
-          
+
           handleComponents(
             items,
             exIframe,
