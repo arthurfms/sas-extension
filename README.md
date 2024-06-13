@@ -36,11 +36,12 @@ Latest Updates:
 
 :white_check_mark: Style changes, added a style tag with iframe styles on the website. Change made to improve styles from the iframe and solve dark mode style issues.
 
+:white_check_mark: Add full decoded link in place of base url before parameter's list.
+
+:white_check_mark: Decode/FTP area organization to have the textarea at a vertical position: improve readability and usability of the input.
 
 Coming Soon:
-:hourglass_flowing_sand: Add full decoded link in place of base url before parameter's list.
 
-:hourglass_flowing_sand: Decode/FTP area organization to have the textarea at a vertical position: improve readability and usability of the input.
 
 :hourglass_flowing_sand: Create a popup window when clicking at the extension button: new feature to allow user to activate this popup and use the tools in there.
 
