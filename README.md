@@ -7,7 +7,7 @@
 
 > MICROSOFT EDGE:
 > 
->-  Use [this link](#) to install the extension into your browser.
+>-  Use [this link](https://github.com/arthurfms/sas-extension/archive/refs/heads/main.zip) to install the extension into your browser.
 
 
 
@@ -21,7 +21,7 @@
 
 > MOZILLA FIREFOX:
 >
->  - Use [this link](#) to install the extension into your browser.
+>  - Use [this link](https://github.com/arthurfms/sas-extension-mff) to install the extension into your browser.
 
 </details>
 
