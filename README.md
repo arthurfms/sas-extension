@@ -7,7 +7,7 @@
 
 > MICROSOFT EDGE:
 > 
->-  Use [this link](https://github.com/arthurfms/sas-extension/archive/refs/heads/main.zip) to install the extension into your browser.
+>-  Use [this link](https://microsoftedge.microsoft.com/addons/detail/sas-internal-extension/chkgkngehcjpbglcifjfcilemeegkmnm) to install the extension into your browser.
 
 
 
