@@ -299,9 +299,11 @@ input.menu-container__input {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  overflow-y: auto;
   position: relative;
   margin: 0;
+}
+.transaction-body.transaction-body_active {
+  overflow-y: auto;
 }
 .transactions-header {
   width: 100%;
@@ -519,7 +521,7 @@ input.transactions-option__box {
   resize: none;
   padding: 5px 10px;
   outline: none;
-  overflow: scroll;
+  overflow: auto;
   text-wrap: nowrap;
 }
 .transactions-result_box .transactions-result__result {
