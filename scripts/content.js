@@ -530,7 +530,6 @@ window.addEventListener("load", () => {
 
   let orderObject = [];
   for (let page = 1; page <= pagesToGet; page++) {
-      console.log(`Getting page: ${page}`);
       // START FETCH
       fetch(`https://account.shareasale.com/m-accountactivity.cfm?&pageNumber=${page}`)
       .then((res) => {return res.text()})
@@ -660,7 +659,6 @@ window.addEventListener("load", () => {
             returnResult(ordersObj, resultEl[1].querySelector(".transactions-result__result"), key);
           })
         });
-        console.log(filters);
       })
       .catch((error) => {console.log(error)});
       // ENDING FETCH
@@ -955,7 +953,6 @@ window.addEventListener("load", () => {
             });
             // Run trans script
             eventsHandler(getTransButton, [], "click", (evt) => {
-              console.log("Handle Transaction Function");
               handleTransactions(transOptions, transIframeBody.querySelectorAll(".transactions-result"), filtersContainer);
             });
             // Transactions Download handler
