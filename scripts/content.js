@@ -473,6 +473,7 @@ window.addEventListener("load", () => {
 
         // each option >> create column
         addColumn(headerRow, "Date");
+        addColumn(headerRow, "Transaction ID");
         options.includes("Amount") ? addColumn(headerRow, "Amount") : "";
         options.includes("Order ID") ? addColumn(headerRow, "Order ID") : "";
         options.includes("Version") ? addColumn(headerRow, "Version") : "";
@@ -510,6 +511,7 @@ window.addEventListener("load", () => {
 
             // each option >> create column
             addColumn(row, order.date);
+            addColumn(row, order.transID);
             options.includes("Amount") ? addColumn(row, order.amount) : "";
             options.includes("Order ID") ? addColumn(row, order.orderID) : "";
             options.includes("Version") ? addColumn(row, order.version) : "";
@@ -575,6 +577,7 @@ window.addEventListener("load", () => {
                       thisOrd.version = urlParams.get('v');
                       thisOrd.newCustomer = urlParams.get('newcustomer');
                       thisOrd.currency = urlParams.get('currency');
+                      thisOrd.merchantID = urlParams.get('merchantID');
                   }
               });
               orderObject.push(thisOrd);
@@ -959,6 +962,7 @@ window.addEventListener("load", () => {
             });
             // Transactions Download handler
             const downloadTransactions = (cont) => {
+              let header = document.querySelector(".content-main-menu-header .mer-id") ? `MID${document.querySelector(".content-main-menu-header .mer-id").textContent.replaceAll("ID#", "").replaceAll(" ", "")}` : "transactions";
               let container = cont.querySelector(".transactions-result__result").querySelectorAll(".transactions-result__row");
               if (container.length > 0) {
                 let data = [];
@@ -987,7 +991,7 @@ window.addEventListener("load", () => {
 
                 link.setAttribute("href", url);
                 
-                link.setAttribute("download", `transactions-${currentDate.getFullYear()}_${currentDate.getMonth() + 1}_${currentDate.getDate()}.csv`);
+                link.setAttribute("download", `${header}-${currentDate.getFullYear()}${currentDate.getMonth() + 1}${currentDate.getDate()}-${currentDate.getHours()}${currentDate.getMinutes()}.csv`);
         
                 document.body.appendChild(link);
                 link.click();
