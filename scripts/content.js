@@ -13,6 +13,8 @@ window.addEventListener("load", () => {
       : document.querySelector("body").querySelector("#added-element");
   };
 
+
+
   // Handling events
   const eventsHandler = (target, elements, event, callBack) => {
     target.addEventListener(event, (evt) => {
@@ -410,6 +412,7 @@ window.addEventListener("load", () => {
     let styleLink = document.createElement("link");
     styleLink.type = "text/css";
     styleLink.rel = "stylesheet";
+    
     styleLink.href =
       "https://arthurfms.github.io/sas-extension/source/source.css";
     let resetLink = document.createElement("link");
@@ -441,6 +444,229 @@ window.addEventListener("load", () => {
     handleOptions(optionsItems, container);
   };
 
+  //Handling Transactions #here
+  const handleTransactions = (options, resElements, filtersCont) => {
+    let activeOptions = [];
+    let pg;
+    options.forEach((opt) => {
+      opt.querySelector("input") ? pg = opt.querySelector("input").value : "";
+      opt.querySelector(".transactions-option__box_active") ? activeOptions.push(opt.querySelector("p").textContent) : "";
+    });
+    getTransactions(activeOptions, resElements, pg, filtersCont);
+  }
+  // Getting Transactions
+  const getTransactions = (options, resultEl, pages, filtersCont) => {
+    let addColumn = (container, data) => {
+      let tempCol = document.createElement("p");
+      tempCol.classList.add("transactions-result__column");
+      tempCol.textContent = data;
+      container.append(tempCol);
+    }
+    const returnResult = (ordersObj, resultCont, filter = "All Orders") => {
+      let resultHeader = resultCont.parentElement.querySelector(".transactions-result__title").querySelector("span");
+
+      resultHeader.innerHTML = ` | ${filter}`;
+      resultCont.textContent = "";
+
+      let headerRow = document.createElement("div");
+        headerRow.classList.add("transactions-result__row");
+
+        // each option >> create column
+        addColumn(headerRow, "Date");
+        options.includes("Amount") ? addColumn(headerRow, "Amount") : "";
+        options.includes("Order ID") ? addColumn(headerRow, "Order ID") : "";
+        options.includes("Version") ? addColumn(headerRow, "Version") : "";
+        options.includes("Affiliate") ? addColumn(headerRow, "Affiliate") : "";
+        options.includes("Type") ? addColumn(headerRow, "Type") : "";
+        options.includes("Voided") ? addColumn(headerRow, "Voided") : "";
+        options.includes("Commission") ? addColumn(headerRow, "Commission") : "";
+        options.includes("Comment") ? addColumn(headerRow, "Comment") : "";
+        options.includes("Hash") ? addColumn(headerRow, "Hash") : "";
+        options.includes("Referer") ? addColumn(headerRow, "Referer") : "";
+        options.includes("Tracking Pixel") ? addColumn(headerRow, "Tracking Pixel") : "";
+
+        resultCont.append(headerRow);
+
+        ordersObj.forEach((order) => {
+          let validOrder;
+          if (filter.includes("Version:")) {
+            validOrder = filter == `Version: ${order.version}`;
+          } else if (filter.includes("Type:")) {
+            validOrder = filter == `Type: ${order.type}`;
+          } else if (filter == "Has Order ID") {
+            validOrder = order.orderID != "";
+          } else if (filter == "No Order ID") {
+            validOrder = order.orderID == "";
+          } else {
+            validOrder = true;
+          }
+          
+          if (validOrder) {
+            // each order >> create row
+            let row = document.createElement("div");
+            row.classList.add("transactions-result__row");
+
+            // each option >> create column
+            addColumn(row, order.date);
+            options.includes("Amount") ? addColumn(row, order.amount) : "";
+            options.includes("Order ID") ? addColumn(row, order.orderID) : "";
+            options.includes("Version") ? addColumn(row, order.version) : "";
+            options.includes("Affiliate") ? addColumn(row, `${order.affiliateName}: ${order.affiliateID}`) : "";
+            options.includes("Type") ? addColumn(row, order.type) : "";
+            options.includes("Voided") ? addColumn(row, `Voided: ${order.voided}`) : "";
+            options.includes("Commission") ? addColumn(row, `$${order.commission} (${order.commissionPerc}%)`) : "";
+            options.includes("Comment") ? addColumn(row, order.comment) : "";
+            options.includes("Hash") ? addColumn(row, `${order.iphash} (${order.ipCountry})`) : "";
+            options.includes("Referer") ? addColumn(row, order.referer) : "";
+            options.includes("Tracking Pixel") ? addColumn(row, order.pixel) : "";
+            
+            resultCont.append(row);
+          }
+        });
+    }
+    
+    // FETCHING TRANSACTIONS
+    let pagesToGet = pages;
+
+  let orderObject = [];
+  for (let page = 1; page <= pagesToGet; page++) {
+      console.log(`Getting page: ${page}`);
+      // START FETCH
+      fetch(`https://account.shareasale.com/m-accountactivity.cfm?&pageNumber=${page}`)
+      .then((res) => {return res.text()})
+      .then((html) => {
+          let orders = [];
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          doc.querySelectorAll(".showMe").forEach((transaction) => {
+              transaction.querySelector(".transRptRow") ? orders.push(transaction.querySelector(".transDetails")) : "";
+          });
+          return orders;
+      })
+      .then((orders) => {
+          orders.forEach((order) => {
+              let orderHeader = order.querySelector(".rowHdr");
+              let orderBody = order.querySelector(".bdy");
+              let orderAff = order.querySelector(".affCont").querySelector(".nameIdContainer");
+              let detailsContainer = orderBody.querySelector(".detailsContainer").querySelectorAll(".item");
+              let thisOrd = {};
+              thisOrd.amount = orderBody.querySelector(".tDspAmount") ? orderBody.querySelector(".tDspAmount").textContent.replace("$", "").trim() : "";
+              thisOrd.orderID = orderHeader.querySelector(".orderId input") ? orderHeader.querySelector(".orderId input").value : "";
+              thisOrd.transID = orderHeader.querySelector(".trnsId") ? orderHeader.querySelector(".trnsId").textContent.replace("Transaction ID: ","").trim() : "";
+              thisOrd.date = orderHeader.querySelector(".tDate") ? orderHeader.querySelector(".tDate").textContent.replace("2024", "2024 ").replace("2023", "2023 ").replace("2022", "2022 ").replace("2021", "2021 ").replace("2020", "2020 ").trim() : "";
+              thisOrd.lock = orderBody.querySelector(".transStatus") ? orderBody.querySelector(".transStatus").textContent.replace("LOCK DATE: ", "").trim() : "";
+              thisOrd.voided = orderBody.querySelector(".voided") ? true : false;
+              thisOrd.commission = orderBody.querySelector(".commDollar") ? orderBody.querySelector(".commDollar").textContent.replace("$", "").trim() : "";
+              thisOrd.commissionPerc = orderBody.querySelector(".commPercent") ? orderBody.querySelector(".commPercent").textContent.replace("%", "").trim() : "";
+              thisOrd.comment = orderBody.querySelector(`#commentField_${thisOrd.transID}`) ? orderBody.querySelector(`#commentField_${thisOrd.transID}`).value.trim() : "";
+              thisOrd.type = orderBody.querySelector(".tType") ? orderBody.querySelector(".tType").textContent : "";
+              thisOrd.affiliateName = orderAff.querySelector('.name') ? orderAff.querySelector('.name').textContent.trim() : "";
+              thisOrd.affiliateID = orderAff.querySelector('.id') ? orderAff.querySelector('.id').textContent.replace("Affiliate ID: ", "").trim() : "";
+              detailsContainer.forEach((item) => {
+                  if (item.textContent.toUpperCase().includes("HASH")) {
+                      thisOrd.iphash = item.querySelector("a") ? item.querySelector("a").textContent.trim() : "";
+                      thisOrd.ipCountry = item.querySelector("img") ? item.querySelector("img").alt : "";
+                  } else if (item.textContent.toUpperCase().includes("HTTP")) {
+                      thisOrd.referer = item.querySelector("input").value;
+                  } else if (item.textContent.toUpperCase().includes("PIXEL")) {
+                      thisOrd.pixel = decodeURIComponent(item.querySelector("input").value);
+                      let urlParams = new URLSearchParams(thisOrd.pixel);
+                      thisOrd.version = urlParams.get('v');
+                      thisOrd.newCustomer = urlParams.get('newcustomer');
+                      thisOrd.currency = urlParams.get('currency');
+                  }
+              });
+              orderObject.push(thisOrd);
+          });
+          return orderObject;
+      })
+      .then((ordersObj) => {
+        // Handle JSON Result
+        let returnEl = resultEl[0].querySelector(".transactions-result__result")
+        returnEl.textContent = "";
+        ordersObj.forEach((order) => {
+          returnEl.textContent = `${returnEl.textContent}\n${JSON.stringify(order).replaceAll(`,"`, `,\n"`).replace(`{`, `{\n`)},`;
+        });
+        return ordersObj;
+      })
+      .then((ordersObj) => {
+        // Handle results
+        let resultCont = resultEl[1].querySelector(".transactions-result__result");
+        
+        returnResult(ordersObj, resultCont);
+        
+        return ordersObj;
+      })
+      .then((ordersObj) => {
+        const handleFilter = (orderData, dataToGet, nullValue, filters) => {
+          let tempF = orderData[dataToGet] != null ? `${dataToGet.charAt(0).toUpperCase() + dataToGet.slice(1)}: ${orderData[dataToGet]}` : `${dataToGet.charAt(0).toUpperCase() + dataToGet.slice(1)}: ${nullValue}`;
+          if (filters[`${tempF}`] == undefined) {
+            filters[`${tempF}`] = {
+              count: 1,
+              transactions: [orderData],
+            };
+          } else {
+            filters[`${tempF}`].count++,
+            filters[`${tempF}`].transactions.push(orderData);
+          }
+        }
+        let filtersObj = {
+          "All Orders": {
+            count: ordersObj.length,
+            transactions: ordersObj,
+          },
+          "Has Order ID": {
+            count: 0,
+            transactions: [],
+          },
+          "No Order ID": {
+            count: 0,
+            transactions: [],
+          }
+        };
+        ordersObj.forEach((order) => {
+          // Order ID
+          if (order.orderID) {
+            filtersObj["Has Order ID"].count++,
+            filtersObj["Has Order ID"].transactions.push(order);
+          } else {
+            filtersObj["No Order ID"].count++,
+            filtersObj["No Order ID"].transactions.push(order);
+          }
+          // Version
+          handleFilter(order, "version", "No version", filtersObj);
+          // Type
+          handleFilter(order, "type", "No type", filtersObj);
+        });
+
+        return [filtersObj, ordersObj];
+      })
+      .then((returnArray) => {
+        let hasFilter = filtersCont.querySelectorAll(".transactions-details__result");
+        hasFilter.forEach((filter) => {
+          filter.remove();
+        });
+        let filters = returnArray[0];
+        let ordersObj = returnArray[1];
+        Object.keys(filters).forEach(key => {
+          //filtersCont.innerHTML = "";
+          let tempEl = document.createElement("p");
+          tempEl.classList.add("transactions-details__result");
+          tempEl.innerHTML = `
+          ${key}<span>${filters[key].count}</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"/></svg>
+          `;
+          filtersCont.append(tempEl);
+          tempEl.addEventListener("click", () => {
+            returnResult(ordersObj, resultEl[1].querySelector(".transactions-result__result"), key);
+          })
+        });
+        console.log(filters);
+      })
+      .catch((error) => {console.log(error)});
+      // ENDING FETCH
+      }
+    }
+
   // Getting Options
   const getOptions = () => {
     chrome.storage.sync.get(
@@ -452,6 +678,7 @@ window.addEventListener("load", () => {
         affContext: true,
         datafeed: true,
         sasUI: true,
+        transactionsScript: true,
         decoder: true,
         ftpCred: true,
         getMerchant: true,
@@ -465,6 +692,7 @@ window.addEventListener("load", () => {
           items.extension &&
           (items.datafeed ||
             items.sasUI ||
+            items.transactionsScript ||
             items.decoder ||
             items.ftpCred ||
             items.getMerchant ||
@@ -497,6 +725,34 @@ window.addEventListener("load", () => {
           #sas-iframe.sas-extension-iframe:hover {
             box-shadow: -3px 2px 3px 0px rgba(0, 0, 0, 0.2);
           }
+            #sas-transactions-iframe.sas-transactions-iframe {
+              width: 250px;
+              height: 35px;
+              position: fixed;
+              bottom: 0px;
+              left: 55px;
+              border: none;
+              background: transparent;
+              z-index: 100;
+              border-radius: 40px 40px 0px 0px;
+              background: rgba(225, 225, 225, 0.75);
+              box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+              backdrop-filter: blur(10px);
+              -webkit-backdrop-filter: blur(10px);
+              cursor: pointer;
+              transition: all 0.35s ease;
+              z-index: 100000000;
+            }
+            #sas-transactions-iframe.sas-transactions-iframe:hover {
+              box-shadow: 1.25px -.5px 3px 0px rgba(0, 0, 0, 0.2);
+            }
+            #sas-transactions-iframe.sas-transactions-iframe.sas-transactions-iframe_active {
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              border-radius: 0;
+            }
           `;
           let exIframe = createComponent("iframe", "sas-iframe", [
             "sas-extension-iframe",
@@ -548,6 +804,451 @@ window.addEventListener("load", () => {
           eventsHandler(closeButton, [exIframe], "click", (el, evt) => {
             el[0].remove();
           });
+
+          // TRANSACTIONS SCRIPT FUNCTION
+          if (items.transactionsScript && window.location.href.includes("account.shareasale.com/m")) {
+            let transIframe = createComponent("iframe", "sas-transactions-iframe", [
+              "sas-transactions-iframe",
+            ]);
+            let transIframeBody = transIframe.contentWindow.document.body;
+            transIframeBody.classList.add("transaction-body");
+            let popupStyle = document.createElement("style");
+            popupStyle.textContent = `
+            .transaction-body {
+                box-sizing: border-box;
+                font-family: "Roboto", sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                position: relative;
+                margin: 0;
+            }
+            .transactions-header {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .transactions-header__title {
+                font-size: 22px;
+                text-transform: uppercase;
+                text-align: center;
+                margin: 0;
+                padding: 5px;
+                cursor: pointer;
+            }
+            .transaction-body_active .transactions-header__title {
+                display: none;
+            }
+            .transactions-header__get-button {
+                display: none;
+                padding: 10px 20px;
+                background: #f9b316;
+                border-radius: 6px;
+                padding: 10px 20px;
+                text-transform: uppercase;
+                font-weight: 700;
+                font-size: 16px;
+                transition: opacity .5s ease;
+            }
+            .transactions-header__get-button:hover {
+                opacity: .75;
+            }
+            .transactions-header__close-button {
+                display: none;
+                width: 25px;
+                transition: all 0.75s ease;
+                transition: opacity .5s ease;
+            }
+            .transactions-header__close-button:hover {
+                opacity: .75;
+            }
+            .transaction-body_active .transactions-header {
+                justify-content: space-between;
+                padding: 10px 25px;
+            }
+            .transaction-body_active .transactions-header__close-button, .transaction-body_active .transactions-header__get-button {
+                display: flex;
+                cursor: pointer;
+                z-index: 1000;
+            }
+            .transactions-popup {
+                position: absolute;
+                bottom: -500px;
+                left: 0;
+                width: 0;
+                height: 0;
+                padding: 10px;
+                visibility: hidden;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                transition: all 0.25s ease;
+            }
+            .transaction-body_active .transactions-popup {
+                margin-top: 25px;
+                position: relative;
+                visibility: visible;
+                left: inherit;
+                bottom: inherit;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: flex-start;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .transactions-options {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                width: 45%;
+            }
+            .transactions-options__title {
+                width: 100%;
+                font-size: 18px;
+                font-weight: 500;
+                margin-bottom: 10px;
+                padding-left: 20px;
+            }
+            .transactions-details__title {
+                width: 100%;
+                font-size: 18px;
+                font-weight: 500;
+                margin-bottom: 10px;
+            }
+            .transactions-option {
+                display: flex;
+                justify-content: space-between;
+                width: 30%;
+                align-items: center;
+                column-gap: 15px;
+                padding: 5px 20px;
+            }
+            
+            .transactions-option__box {
+                background: #FFFFFF;
+                border-radius: 2px;
+                width: 40px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                transition: all .75s ease;
+            }
+            input.transactions-option__box {
+                outline: none;
+                width: 60px;
+                -webkit-appearance: none;
+                cursor: type;
+            }
+            .transactions-option__box::after {
+                content: "";
+                width: 17px;
+                height: 17px;
+                background: #D4D4D4;
+                margin: 0px 2px;
+                border-radius: 2px;
+                transition: all .5s ease;
+            }
+            .transactions-option__box.transactions-option__box_active::after {
+                margin-left: auto;
+                background: #F9B316;
+            }
+            .transactions-details {
+                display: flex;
+                column-gap: 40px;
+                flex-wrap: wrap;
+                width: 45%;
+                padding-right: 50px;
+            }
+            .transactions-details__list {
+                display: flex;
+                column-gap: 20px;
+                row-gap: 10px;
+                max-height: 120px;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                overflow-y: scroll;
+                border-bottom: 1px black solid;
+                padding: 0px 10px;
+            }
+            .transactions-details__result {
+                display: flex;
+                width: 100%;
+                padding: 5px;
+                border-bottom: 1px black dashed;
+            }
+            .transactions-details__result span {
+                margin-left: 10px;
+                padding-left: 10px;
+                margin-right: 10px;
+                border-left: 1px black solid;
+            }
+            .transactions-details__list svg {
+                cursor: pointer;
+                width: 20px;
+                margin-left: 5px;
+            }
+            .transactions-details__list .transactions-details__result svg:hover {
+                fill: #f9b316;
+            }
+            .transactions-results {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                width: 100%;
+                height: 75%;
+                padding: 20px;
+            }
+            .transactions-result {
+                width: 65%;
+                display: flex;
+                flex-direction: column;
+                row-gap: 10px;
+            }
+            .transactions-result_json {
+                width: 28%
+            }
+            .transactions-result__title {
+                font-size: 20px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+            }
+            .transactions-result__title span {
+                margin-left: 10px;
+            }
+            .result-download {
+                width: 20px;
+                margin-left: auto;
+                cursor: pointer;
+                opacity: 1;
+                transition: opacity .5s ease;
+            }
+            .result-download:hover {
+                fill: #f9b316;
+                opacity: .5;
+            }
+            .transactions-result__result {
+                height: 100%;
+                max-height: 425px;
+                padding: 20px;
+                resize: none;
+                padding: 5px 10px;
+                outline: none;
+                overflow: scroll;
+                text-wrap: nowrap;
+            }
+            .transactions-result_box .transactions-result__result {
+                display: flex;
+                flex-direction: column;
+            }
+            .transactions-result__row {
+                min-width: fit-content;
+                display: flex;
+                border: 1px black solid;
+            }
+            .transactions-result__column {
+                padding: 10px 20px;
+                border-right: 1px black dotted;
+                min-width: 250px;
+                max-width: 250px;
+                white-space: pre-wrap;
+                overflow-x: scroll;
+                scrollbar-color: #f9b317 transparent;
+                scrollbar-width: thin !important;
+            }
+            .transactions-result__column:last-of-type {
+                white-space: nowrap;
+                border-right: none;
+            }
+            `;
+            
+            transIframeBody.innerHTML = `
+            <div class="transactions-header">
+              <p class="transactions-header__title">Transactions</p>
+              <p class="transactions-header__get-button">Get Transactions</p>
+              <svg
+                  class="transactions-header__close-button"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 384 512">
+                  <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                </svg>
+          </div>
+          <div class="transactions-popup">
+              <div class="transactions-options">
+                  <p class="transactions-options__title">Options</p>
+                  <div class="transactions-option" id="pages">
+                      <p>Pages to Get</p>
+                      <input class="transactions-option__box" type="number"  min="1" max="25" step="1" value="1" />
+                  </div>
+                  <div class="transactions-option" id="orderid">
+                      <p>Order ID</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="version">
+                      <p>Version</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="amount">
+                      <p>Amount</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="type">
+                      <p>Type</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="affiliate">
+                      <p>Affiliate</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="referer">
+                      <p>Referer</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="pixel">
+                      <p>Tracking Pixel</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="hash">
+                      <p>Hash</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="commission">
+                      <p>Commission</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="voided">
+                      <p>Voided</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+                  <div class="transactions-option" id="comment">
+                      <p>Comment</p>
+                      <span class="transactions-option__box transactions-option__box_active"></span>
+                  </div>
+              </div>
+              <div class="transactions-details">
+                  <p class="transactions-details__title">Filters</p>
+                  <div class="transactions-details__list"></div>
+              </div>
+              <div class="transactions-results">
+                  <div class="transactions-result transactions-result_json">
+                      <p class="transactions-result__title">All Transactions (Object)</p>
+                      <textarea class="transactions-result__result" disabled="disabled"></textarea>
+                  </div>
+                  <div class="transactions-result transactions-result_box">
+                      <p class="transactions-result__title">Result List <span></span><svg class="result-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM216 232l0 102.1 31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31L168 232c0-13.3 10.7-24 24-24s24 10.7 24 24z"/></svg></p>
+                      <div class="transactions-result__result">
+                      </div>
+                  </div>
+              </div>
+            </div>
+            `;
+
+            let resetLink = document.createElement("link");
+            resetLink.type = "text/css";
+            resetLink.rel = "stylesheet";
+            resetLink.href =
+              "https://arthurfms.github.io/sas-extension/source/reset.css";
+
+            let font1 = document.createElement("link");
+            let font2 = document.createElement("link");
+            let font3 = document.createElement("link");
+            font1.rel = "preconnect";
+            font1.href = "https://fonts.googleapis.com";
+            font2.rel = "preconnect";
+            font2.href = "https://fonts.gstatic.com";
+            font3.rel = "stylesheet";
+            font3.href =
+              "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap";
+
+            // Append style elements
+            transIframe.contentWindow.document.head.append(font1),
+            transIframe.contentWindow.document.head.append(font2),
+            transIframe.contentWindow.document.head.append(font3),
+            transIframe.contentWindow.document.head.append(resetLink);
+            transIframe.contentWindow.document.head.append(popupStyle);
+
+            //Handle Events
+            //Options clicks
+            let openTransButton = transIframeBody.querySelector(".transactions-header__title");
+            let getTransButton = transIframeBody.querySelector(".transactions-header__get-button");
+            let transCloseButton = transIframeBody.querySelector(".transactions-header__close-button");
+            let transOptions = transIframeBody.querySelectorAll(".transactions-option");
+            let filtersContainer = transIframeBody.querySelector(".transactions-details .transactions-details__list");
+            let downloadButton = transIframeBody.querySelector(".result-download");
+
+            // Options event
+            transOptions.forEach((opt) => {
+                eventsHandler(opt, [opt.querySelector(".transactions-option__box")], "click", (el, evt) => {
+                  el[0].querySelector("input") ? "" : el[0].classList.toggle("transactions-option__box_active");
+                });
+            });
+            // Open button event
+            eventsHandler(openTransButton, [transIframe, transIframeBody], "click", (el, evt) => {
+              el[0].classList.add("sas-transactions-iframe_active");
+              el[1].classList.add("transaction-body_active");
+              document.querySelector("body").style.overflow = "hidden";
+            });
+            // Close button event
+            eventsHandler(transCloseButton, [transIframe, transIframeBody], "click", (el, evt) => {
+              el[0].classList.remove("sas-transactions-iframe_active");
+              el[1].classList.remove("transaction-body_active");
+              document.querySelector("body").style.overflow = "inherit";
+            });
+            // Run trans script
+            eventsHandler(getTransButton, [], "click", (evt) => {
+              console.log("Handle Transaction Function");
+              handleTransactions(transOptions, transIframeBody.querySelectorAll(".transactions-result"), filtersContainer);
+            });
+            // Transactions Download handler
+            const downloadTransactions = (cont) => {
+              let container = cont.querySelector(".transactions-result__result").querySelectorAll(".transactions-result__row");
+              if (container.length > 0) {
+                let data = [];
+                
+                container.forEach((row) => {
+                  let currRow = [];
+                  row.querySelectorAll(".transactions-result__column").forEach((dt) => {
+                    currRow.push(dt.textContent);
+                  });
+                  data.push(currRow);
+                  
+                });    
+        
+                const csvContent = data.map(e => e.join(",")).join("\n");
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+
+                let currentDate = new Date();
+
+                link.setAttribute("href", url);
+                
+                link.setAttribute("download", `transactions-${currentDate.getFullYear()}_${currentDate.getMonth() + 1}_${currentDate.getDate()}.csv`);
+        
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }
+            }
+
+            // Download Event Listener
+              eventsHandler(downloadButton, [], "click", (evt) => {
+                let el = downloadButton.parentElement.parentElement;
+                downloadTransactions(el);
+              });
+            
+          }
           // Handle Dark theme
           if (
             window.matchMedia &&
@@ -573,6 +1274,8 @@ window.addEventListener("load", () => {
       }
     );
   };
+
+  
 
   getOptions();
 });
