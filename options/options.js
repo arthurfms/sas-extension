@@ -30,6 +30,11 @@ window.addEventListener("load", () => {
       .classList.contains("option__selection_selected")
       ? true
       : false;
+      let transactionsScript = document
+      .querySelector("#transactions-script .option__selection")
+      .classList.contains("option__selection_selected")
+      ? true
+      : false;
     let decoder = document
       .querySelector("#decoder .option__selection")
       .classList.contains("option__selection_selected")
@@ -71,6 +76,7 @@ window.addEventListener("load", () => {
         extension: activateExtension,
         datafeed: activateDatafeed,
         sasUI: sasUI,
+        transactionsScript: transactionsScript,
         decoder: decoder,
         ftpCred: ftpCred,
         getMerchant: getMerchant,
@@ -100,6 +106,7 @@ window.addEventListener("load", () => {
         extension: true,
         datafeed: true,
         sasUI: true,
+        transactionsScript: true,
         decoder: true,
         ftpCred: true,
         getMerchant: true,
@@ -129,6 +136,7 @@ window.addEventListener("load", () => {
         extension: true,
         datafeed: true,
         sasUI: true,
+        transactionsScript: true,
         decoder: true,
         ftpCred: true,
         getMerchant: true,
@@ -151,6 +159,11 @@ window.addEventListener("load", () => {
         items.sasUI
           ? document
               .querySelector("#sas-ui .option__selection")
+              .classList.add("option__selection_selected")
+          : "";
+          items.transactionsScript
+          ? document
+              .querySelector("#transactions-script .option__selection")
               .classList.add("option__selection_selected")
           : "";
         items.decoder
