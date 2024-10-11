@@ -489,7 +489,6 @@ window.addEventListener("load", () => {
 
         ordersObj.forEach((order) => {
           let validOrder;
-          console.log(filter.toUpperCase().includes("NO VERSION"));
           if (filter.includes("Version:") && !filter.toUpperCase().includes("NO VERSION")) {
             validOrder = filter == `Version: ${order.version}`;
           } else if (filter.toUpperCase().includes("NO VERSION")) {
