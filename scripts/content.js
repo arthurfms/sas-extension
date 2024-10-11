@@ -972,7 +972,13 @@ window.addEventListener("load", () => {
                   
                 });    
         
-                const csvContent = data.map(e => e.join(",")).join("\n");
+                const csvContent = data.map(e => {
+                  let tempE = [];
+                  e.forEach((item) => {
+                    tempE.push(`"${item}"`);
+                  });
+                  return tempE;
+                }).join("\n");
                 const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
                 const link = document.createElement("a");
                 const url = URL.createObjectURL(blob);
