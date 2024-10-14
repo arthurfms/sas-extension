@@ -471,18 +471,20 @@ window.addEventListener("load", () => {
         let headerRow = document.createElement("div");
         headerRow.classList.add("transactions-result__row");
 
-        // Download Header
-        jsonCont.innerHTML = "";
-        let dwnHeaderItems = ["merchantID", "date", "orderID", "transID", "type", "amount","currency", "commission", "commissionPerc", "lock", "voided", "pixel", "version", "newCustomer", "affiliateID", "affiliateName", "iphash", "ipCountry", "referer", "comment"];
-        let dwnHeader = document.createElement("div");
-        dwnHeader.classList.add("json-row");
-        dwnHeaderItems.forEach((dwnHeaderItem) => {
-          let headerCol = document.createElement("span");
-          headerCol.classList.add("json-col");
-          headerCol.textContent = dwnHeaderItem;
-          dwnHeader.append(headerCol);
-        });
-        jsonCont.append(dwnHeader);
+        if (jsonCont != undefined) {
+          // Download Header
+          jsonCont.innerHTML = "";
+          let dwnHeaderItems = ["merchantID", "date", "orderID", "transID", "type", "amount","currency", "commission", "commissionPerc", "lock", "voided", "pixel", "version", "newCustomer", "affiliateID", "affiliateName", "iphash", "ipCountry", "referer", "comment"];
+          let dwnHeader = document.createElement("div");
+          dwnHeader.classList.add("json-row");
+          dwnHeaderItems.forEach((dwnHeaderItem) => {
+            let headerCol = document.createElement("span");
+            headerCol.classList.add("json-col");
+            headerCol.textContent = dwnHeaderItem;
+            dwnHeader.append(headerCol);
+          });
+          jsonCont.append(dwnHeader);
+        }
 
         // each option >> create column
         addColumn(headerRow, "Date");
@@ -502,17 +504,6 @@ window.addEventListener("load", () => {
         resultCont.append(headerRow);
 
         ordersObj.forEach((order) => {
-          // Handle JSON Results
-          let dwnRow = document.createElement("div");
-          dwnRow.classList.add("json-row");
-          dwnHeaderItems.forEach((item) => {
-            let dwnCol = document.createElement("span");
-            dwnCol.classList.add("json-col");
-            dwnCol.textContent = order[item];
-            dwnRow.append(dwnCol);
-          });
-          jsonCont.append(dwnRow);
-
           // Handle Results/Filters
           let validOrder;
           if (filter.includes("Version:") && !filter.toUpperCase().includes("NO VERSION")) {
@@ -553,6 +544,33 @@ window.addEventListener("load", () => {
           }
         });
 
+        if (jsonCont != undefined) {
+          // Download Header
+          jsonCont.innerHTML = "";
+          let dwnHeaderItems = ["merchantID", "date", "orderID", "transID", "type", "amount","currency", "commission", "commissionPerc", "lock", "voided", "pixel", "version", "newCustomer", "affiliateID", "affiliateName", "iphash", "ipCountry", "referer", "comment"];
+          let dwnHeader = document.createElement("div");
+          dwnHeader.classList.add("json-row");
+          dwnHeaderItems.forEach((dwnHeaderItem) => {
+            let headerCol = document.createElement("span");
+            headerCol.classList.add("json-col");
+            headerCol.textContent = dwnHeaderItem;
+            dwnHeader.append(headerCol);
+          });
+          jsonCont.append(dwnHeader);
+
+          ordersObj.forEach((order) => {
+            // Handle JSON Results
+            let dwnRow = document.createElement("div");
+            dwnRow.classList.add("json-row");
+            dwnHeaderItems.forEach((item) => {
+              let dwnCol = document.createElement("span");
+              dwnCol.classList.add("json-col");
+              dwnCol.textContent = order[item];
+              dwnRow.append(dwnCol);
+            });
+            jsonCont.append(dwnRow);
+          });
+        }
         
     }
     
@@ -683,7 +701,6 @@ window.addEventListener("load", () => {
         let filters = returnArray[0];
         let ordersObj = returnArray[1];
         Object.keys(filters).forEach(key => {
-          //filtersCont.innerHTML = "";
           let tempEl = document.createElement("p");
           tempEl.classList.add("transactions-details__result");
           tempEl.innerHTML = `
@@ -923,7 +940,7 @@ window.addEventListener("load", () => {
               </div>
               <div class="transactions-results">
                   <div class="transactions-result transactions-result_json">
-                      <p class="transactions-result__title">All Transactions (Object)<svg class="result-download" id="json-dwn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM216 232l0 102.1 31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31L168 232c0-13.3 10.7-24 24-24s24 10.7 24 24z"/></svg><div class="json-download" style="display:none;width:0px;height:0px;"></div></p>
+                      <p class="transactions-result__title">All Transactions (Object)<svg class="result-download" id="json-dwn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM216 232l0 102.1 31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31L168 232c0-13.3 10.7-24 24-24s24 10.7 24 24z"/></svg><span class="json-download" style="display:none;width:0px;height:0px;"></span></p>
                       <textarea class="transactions-result__result" disabled="disabled"></textarea>
                   </div>
                   <div class="transactions-result transactions-result_box">
@@ -994,14 +1011,14 @@ window.addEventListener("load", () => {
             // Transactions Download handler
             const downloadTransactions = (cont, type) => {
               
-              let header = document.querySelector(".content-main-menu-header .mer-id") ? `MID${document.querySelector(".content-main-menu-header .mer-id").textContent.replaceAll("ID#", "").replaceAll(" ", "")}` : "transactions";
-              let container = type == "json" ? cont.querySelector(".json-download").querySelectorAll(".json-row") : cont.querySelector(".transactions-result__result").querySelectorAll(".transactions-result__row");
+              let header = document.querySelector(".content-main-menu-header .mer-id") ? `MID${document.querySelector(".content-main-menu-header .mer-id").textContent.replaceAll("ID#", "").replaceAll(" ", "")}-${type}` : `${type}`;
+              let container = type == "all" ? cont.querySelector(".json-download").querySelectorAll(".json-row") : cont.querySelector(".transactions-result__result").querySelectorAll(".transactions-result__row");
               if (container.length > 0) {
                 let data = [];
                 
                 container.forEach((row) => {
                   let currRow = [];
-                  let rt = type == "json" ? row.querySelectorAll(".json-col") : row.querySelectorAll(".transactions-result__column");
+                  let rt = type == "all" ? row.querySelectorAll(".json-col") : row.querySelectorAll(".transactions-result__column");
                   rt.forEach((dt) => {
                     currRow.push(dt.textContent);
                   });
@@ -1035,11 +1052,11 @@ window.addEventListener("load", () => {
             // Download Event Listener
               eventsHandler(downloadButton, [], "click", (evt) => {
                 let el = downloadButton.parentElement.parentElement;
-                downloadTransactions(el, "result");
+                downloadTransactions(el, "transactions");
               });
               eventsHandler(jsonDownloadButton, [], "click", (evt) => {
                 let el = jsonDownloadButton.parentElement.parentElement;
-                downloadTransactions(el, "json");
+                downloadTransactions(el, "all");
               });
             
           }
