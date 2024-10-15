@@ -13,7 +13,9 @@ window.addEventListener("load", () => {
       : document.querySelector("body").querySelector("#added-element");
   };
 
-
+  const toggleClass = (el, cl) => {
+    el.classList.toggle(cl);
+  }
 
   // Handling events
   const eventsHandler = (target, elements, event, callBack) => {
@@ -445,17 +447,18 @@ window.addEventListener("load", () => {
   };
 
   //Handling Transactions #here
-  const handleTransactions = (options, resElements, filtersCont) => {
+  const handleTransactions = (options, resElements, filtersCont, popup) => {
+    toggleClass(popup, "loading-popup_loading");
     let activeOptions = [];
     let pg;
     options.forEach((opt) => {
       opt.querySelector("input") ? pg = opt.querySelector("input").value : "";
       opt.querySelector(".transactions-option__box_active") ? activeOptions.push(opt.querySelector("p").textContent) : "";
     });
-    getTransactions(activeOptions, resElements, pg, filtersCont);
+    getTransactions(activeOptions, resElements, pg, filtersCont, popup);
   }
   // Getting Transactions
-  const getTransactions = (options, resultEl, pages, filtersCont) => {
+  const getTransactions = (options, resultEl, pages, filtersCont, popup) => {
     let addColumn = (container, data) => {
       let tempCol = document.createElement("p");
       tempCol.classList.add("transactions-result__column");
@@ -711,8 +714,12 @@ window.addEventListener("load", () => {
             returnResult(ordersObj, resultEl[1].querySelector(".transactions-result__result"), key);
           })
         });
+        page == pagesToGet ? toggleClass(popup, "loading-popup_loading") : "";
       })
-      .catch((error) => {console.log(error)});
+      .catch((error) => {
+        alert("Error, please check the console for more information!");
+        console.log(error);
+      });
       // ENDING FETCH
       }
     }
@@ -870,6 +877,7 @@ window.addEventListener("load", () => {
               "https://arthurfms.github.io/sas-extension/source/source.css";
             
             transIframeBody.innerHTML = `
+            <p class="loading-popup">Loading</p>
             <div class="transactions-header">
               <p class="transactions-header__title">Transactions</p>
               <p class="transactions-header__get-button">Get Transactions</p>
@@ -985,6 +993,7 @@ window.addEventListener("load", () => {
             let filtersContainer = transIframeBody.querySelector(".transactions-details .transactions-details__list");
             let downloadButton = transIframeBody.querySelector("#trans-dwn");
             let jsonDownloadButton = transIframeBody.querySelector("#json-dwn");
+            let loadingPop = transIframeBody.querySelector(".loading-popup");
 
             // Options event
             transOptions.forEach((opt) => {
@@ -1006,7 +1015,7 @@ window.addEventListener("load", () => {
             });
             // Run trans script
             eventsHandler(getTransButton, [], "click", (evt) => {
-              handleTransactions(transOptions, transIframeBody.querySelectorAll(".transactions-result"), filtersContainer);
+              handleTransactions(transOptions, transIframeBody.querySelectorAll(".transactions-result"), filtersContainer, loadingPop);
             });
             // Transactions Download handler
             const downloadTransactions = (cont, type) => {
