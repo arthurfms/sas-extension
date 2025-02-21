@@ -34,46 +34,67 @@ window.addEventListener("load", () => {
                     
                     switch (param.substring(0, param.indexOf("=")).toLowerCase().trim()) {
                         case "sscid":
-                            newParam.classList.add("color-guide__item_itp");
+                            newParam.classList.add("color-guide__bullet_itp");
                             break;
                         case "sscidmode":
-                            newParam.classList.add("color-guide__item_itp");
+                            newParam.classList.add("color-guide__bullet_itp");
                             break;
                         case "currency":
-                            newParam.classList.add("color-guide__item_currency");
+                            newParam.classList.add("color-guide__bullet_currency");
                             break;
                         case "quantitylist":
-                            newParam.classList.add("color-guide__item_sku");
+                            newParam.classList.add("color-guide__bullet_sku");
                             break;
                         case "skulist":
-                            newParam.classList.add("color-guide__item_sku");
+                            newParam.classList.add("color-guide__bullet_sku");
                             break;
                         case "pricelist":
-                            newParam.classList.add("color-guide__item_sku");
+                            newParam.classList.add("color-guide__bullet_sku");
                             break;
                         case "couponcode":
-                            newParam.classList.add("color-guide__item_coupon");
+                            newParam.classList.add("color-guide__bullet_coupon");
                             break;
                         case "storeid":
-                            newParam.classList.add("color-guide__item_storesconnect");
+                            newParam.classList.add("color-guide__bullet_storesconnect");
                             break;
                         case "amount":
-                            newParam.classList.add("color-guide__item_amount");
+                            newParam.classList.add("color-guide__bullet_amount");
                             break;
                         case "v":
-                            newParam.classList.add("color-guide__item_version");
+                            newParam.classList.add("color-guide__bullet_version");
                             break;
                         case "xtype":
-                            newParam.classList.add("color-guide__item_xtype");
+                            newParam.classList.add("color-guide__bullet_xtype");
                             break;
                         case "tracking":
-                            newParam.classList.add("color-guide__item_tracking");
+                            newParam.classList.add("color-guide__bullet_tracking");
                             break;
                         case "newcustomer":
-                            newParam.classList.add("color-guide__item_newcustomer");
+                            newParam.classList.add("color-guide__bullet_newcustomer");
                             break;
                         case "transtype":
-                            newParam.classList.add("color-guide__item_transtype");
+                            newParam.classList.add("color-guide__bullet_transtype");
+                            break;
+                        case "version":
+                            newParam.classList.add("color-guide__bullet_api");
+                            break;
+                        case "format":
+                            newParam.classList.add("color-guide__bullet_api");
+                            break;
+                        case "devopts":
+                            newParam.classList.add("color-guide__bullet_api");
+                            break;
+                        case "cart":
+                            newParam.classList.add("color-guide__bullet_api");
+                            break;
+                        case "userid":
+                            newParam.classList.add("color-guide__bullet_api");
+                            break;
+                        case "token":
+                            newParam.classList.add("color-guide__bullet_api");
+                            break;
+                        case "xmlformat":
+                            newParam.classList.add("color-guide__bullet_api");
                             break;
                     }
                     container.append(newParam);
@@ -89,6 +110,7 @@ window.addEventListener("load", () => {
     const appendColor = () => {
         if (document.querySelector("#color-guide") == null) {
             let style = document.createElement("style");
+            style.id = "sas-ext-style";
             style.innerHTML = `
                 .color-guide {
                     display: flex;
@@ -113,41 +135,44 @@ window.addEventListener("load", () => {
                     padding: 5px 10px;
                     border-radius: 4px;
                 }
-                :not(p).color-guide__item_itp {
-                    background: #ff926a;
+                .color-guide__item_itp {
+                    background: #ff5a1e;
                 }
-                :not(p).color-guide__item_currency {
+                .color-guide__item_currency {
                     background: #e6c200;
                 }
-                :not(p).color-guide__item_sku {
+                .color-guide__item_sku {
                     background: #839deb;
                 }
-                :not(p).color-guide__item_coupon {
+                .color-guide__item_coupon {
                     background: #44c17b;
                 }
-                :not(p).color-guide__item_storesconnect {
+                .color-guide__item_storesconnect {
                     background: #ffaf4d;
                 }
-                :not(p).color-guide__item_amount {
+                .color-guide__item_amount {
                     background: #0b6655;
                     color: #ffffff;
                 }
-                :not(p).color-guide__item_version {
+                .color-guide__item_version {
                     background: #72e600;
                 }
-                :not(p).color-guide__item_xtype {
+                .color-guide__item_xtype {
                     background: #e499e2;
                 }
-                :not(p).color-guide__item_tracking {
+                .color-guide__item_tracking {
                     background: #890000;
                     color: #ffffff;
                 }
-                :not(p).color-guide__item_newcustomer {
+                .color-guide__item_newcustomer {
                     background: #b2ffe5;
                 }
-                :not(p).color-guide__item_transtype {
+                .color-guide__item_transtype {
                     background: #676767;
                     color: #ffffff;
+                }
+                .color-guide__item_api {
+                    background: #f07d7d;
                 }
                 .decode-transaction__button {
                     width: fit-content;
@@ -186,43 +211,46 @@ window.addEventListener("load", () => {
                 }
                 .decode-transaction__parameter:before {
                     content: "";
-                    width: 8px;
-                    height: 8px;
+                    width: 9px;
+                    height: 9px;
                     border-radius: 50%;
                     background: #676767;
                 }
-                :not(b).color-guide__item_itp:before {
-                    background: #ff926a;
+                .color-guide__bullet_itp:before {
+                    background: #ff5a1e;
                 }
-                :not(b).color-guide__item_currency:before {
+                .color-guide__bullet_currency:before {
                     background: #e6c200;
                 }
-                :not(b).color-guide__item_sku:before {
+                .color-guide__bullet_sku:before {
                     background: #839deb;
                 }
-                :not(b).color-guide__item_coupon:before {
+                .color-guide__bullet_coupon:before {
                     background: #44c17b;
                 }
-                :not(b).color-guide__item_storesconnect:before {
+                .color-guide__bullet_storesconnect:before {
                     background: #ffaf4d;
                 }
-                :not(b).color-guide__item_amount:before {
+                .color-guide__bullet_amount:before {
                     background: #0b6655;
                 }
-                :not(b).color-guide__item_version:before {
+                .color-guide__bullet_version:before {
                     background: #72e600;
                 }
-                :not(b).color-guide__item_xtype:before {
+                .color-guide__bullet_xtype:before {
                     background: #e499e2;
                 }
-                :not(b).color-guide__item_tracking:before {
+                .color-guide__bullet_tracking:before {
                     background: #890000;
                 }
-                :not(b).color-guide__item_newcustomer:before {
+                .color-guide__bullet_newcustomer:before {
                     background: #b2ffe5;
                 }
-                :not(b).color-guide__item_transtype:before {
+                .color-guide__bullet_transtype:before {
                     background: #676767;
+                }
+                .color-guide__bullet_api:before {
+                    background: #f07d7d;
                 }
             `;
             document.querySelector("#transSearch").append(style);
@@ -242,6 +270,7 @@ window.addEventListener("load", () => {
             <p class="color-guide__item color-guide__item_tracking">Order ID</p>
             <p class="color-guide__item color-guide__item_newcustomer">New Customer</p>
             <p class="color-guide__item color-guide__item_transtype">TransType</p>
+            <p class="color-guide__item color-guide__item_api">API</p>
             `;
 
             subContainer.append(subtitle);
