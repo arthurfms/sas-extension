@@ -96,6 +96,9 @@ window.addEventListener("load", () => {
                         case "xmlformat":
                             newParam.classList.add("color-guide__bullet_api");
                             break;
+                        case "action":
+                            newParam.classList.add("color-guide__bullet_api");
+                            break;
                     }
                     container.append(newParam);
                 }
@@ -172,7 +175,8 @@ window.addEventListener("load", () => {
                     color: #ffffff;
                 }
                 .color-guide__item_api {
-                    background: #f07d7d;
+                    background: #3872c0;
+                    color: #ffffff;
                 }
                 .decode-transaction__button {
                     width: fit-content;
@@ -250,7 +254,7 @@ window.addEventListener("load", () => {
                     background: #676767;
                 }
                 .color-guide__bullet_api:before {
-                    background: #f07d7d;
+                    background: #3872c0;
                 }
             `;
             document.querySelector("#transSearch").append(style);
@@ -319,6 +323,30 @@ window.addEventListener("load", () => {
                         break;
                     case "transtype":
                         b.classList.add("color-guide__item_transtype");
+                        break;
+                    case "version":
+                        b.classList.add("color-guide__item_api");
+                        break;
+                    case "format":
+                        b.classList.add("color-guide__item_api");
+                        break;
+                    case "devopts":
+                        b.classList.add("color-guide__item_api");
+                        break;
+                    case "cart":
+                        b.classList.add("color-guide__item_api");
+                        break;
+                    case "userid":
+                        b.classList.add("color-guide__item_api");
+                        break;
+                    case "token":
+                        b.classList.add("color-guide__item_api");
+                        break;
+                    case "xmlformat":
+                        b.classList.add("color-guide__item_api");
+                        break;
+                    case "action":
+                        b.classList.add("color-guide__item_api");
                         break;
                     case "full query string":
                         let currTr = b.parentElement.parentElement;
