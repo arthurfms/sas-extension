@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SAS Internal Extension",
-  "version": "2.5",
+  "version": "3.0",
   "description": "ShareASale internal extension",
   "permissions": ["storage", "contextMenus"],
   "icons": {
@@ -14,6 +14,10 @@
     {
       "js": ["scripts/content.js"],
       "matches": ["http://*/*", "https://*/*"]
+    },
+    {
+      "js": ["scripts/admin.js"],
+      "matches": ["https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=*", "https://account.shareasale.com/admin/adminAjax.cfc*"]
     }
   ],
   "options_page": "options/options.html",
