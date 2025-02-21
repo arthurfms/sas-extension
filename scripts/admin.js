@@ -175,7 +175,7 @@ window.addEventListener("load", () => {
                     color: #ffffff;
                 }
                 .color-guide__item_api {
-                    background: #3872c0;
+                    background: #2c5b99;
                     color: #ffffff;
                 }
                 .decode-transaction__button {
@@ -254,7 +254,7 @@ window.addEventListener("load", () => {
                     background: #676767;
                 }
                 .color-guide__bullet_api:before {
-                    background: #3872c0;
+                    background: #2c5b99;
                 }
             `;
             document.querySelector("#transSearch").append(style);
