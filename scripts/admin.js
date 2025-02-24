@@ -27,7 +27,7 @@ window.addEventListener("load", () => {
             container.innerHTML = `<p class="decode-transaction__pixel">${decodedUrl}</p>`
 
             queryParams.forEach((param) => {
-                if (param != "") {
+                if (param != "" && param != "Full Query String:") {
                     let newParam = document.createElement("p");
                     newParam.classList.add("decode-transaction__parameter");
                     newParam.textContent = param;
@@ -121,6 +121,7 @@ window.addEventListener("load", () => {
                     align-items: center;
                     flex-wrap: wrap;
                     column-gap: 15px;
+                    row-gap: 5px;
                     margin: 0;
                     padding: 10px;
                 }
@@ -196,6 +197,7 @@ window.addEventListener("load", () => {
                 .decode-transaction__decoded {
                     display: flex;
                     flex-wrap: wrap;
+                    column-gap: 5%;
                     font-size: 16px;
                 }
                 .decode-transaction__pixel {
@@ -203,12 +205,16 @@ window.addEventListener("load", () => {
                     margin: 0;
                     margin-bottom: 10px;
                     padding: 0;
+                    word-break: break-all;
                 }
                 .decode-transaction__parameter {
                     display: flex;
                     align-items: center;
                     column-gap: 5px;
                     width: 30%;
+                    max-width: 30%;
+                    word-break: break-word;
+                    overflow-wrap: break-word;
                     line-height: 1;
                     margin: 0;
                     padding: 5px 0;
@@ -217,6 +223,10 @@ window.addEventListener("load", () => {
                     content: "";
                     width: 9px;
                     height: 9px;
+                    max-width: 9px;
+                    max-height: 9px;
+                    min-width: 9px;
+                    min-height: 9px;
                     border-radius: 50%;
                     background: #676767;
                 }
@@ -350,23 +360,25 @@ window.addEventListener("load", () => {
                         break;
                     case "full query string":
                         let currTr = b.parentElement.parentElement;
-                        let trBtn = document.createElement("p");
-                        trBtn.classList.add("decode-transaction__button");
-                        trBtn.textContent = "Decode this transaction";
-                        currTr.append(trBtn);
-                        
-                        trBtn.addEventListener("click", () => {
-                            trBtn.classList.toggle("decode-transaction__button_decoded");
-                            trBtn.textContent = trBtn.classList.contains("decode-transaction__button_decoded") ?
-                            "Reset" :
-                            "Decode this transaction";
-                        
-                            let container = document.createElement("div");
-                            container.classList.add("decode-transaction__decoded");
+                        if (currTr.textContent.toLowerCase().trim() != "full query string:") {                       
+                            let trBtn = document.createElement("p");
+                            trBtn.classList.add("decode-transaction__button");
+                            trBtn.textContent = "Decode this transaction";
+                            currTr.append(trBtn);
                             
-                            decodeUrl(currTr.querySelector("font").textContent.trim().replace("Full Query String: ", ""), container, currTr);
+                            trBtn.addEventListener("click", () => {
+                                trBtn.classList.toggle("decode-transaction__button_decoded");
+                                trBtn.textContent = trBtn.classList.contains("decode-transaction__button_decoded") ?
+                                "Reset" :
+                                "Decode this transaction";
+                            
+                                let container = document.createElement("div");
+                                container.classList.add("decode-transaction__decoded");
+                                
+                                decodeUrl(currTr.querySelector("font").textContent.trim().replace("Full Query String: ", ""), container, currTr);
 
-                        });
+                            });
+                        }
                         break;
                 }
             });
