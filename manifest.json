@@ -17,7 +17,7 @@
     },
     {
       "js": ["scripts/admin.js"],
-      "matches": ["https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchantId=*", "https://account.shareasale.com/admin/adminAjax.cfc*"]
+      "matches": ["https://account.shareasale.com/admin/adminDetailsMerchant.cfm?merchant*", "https://account.shareasale.com/admin/adminAjax.cfc*"]
     }
   ],
   "options_page": "options/options.html",
